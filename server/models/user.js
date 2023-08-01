@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-const dateFormat = require('../utils/dateFormat');
+const comments = require('./comments')
 
 const userSchema = new Schema({
   email: {
@@ -13,16 +13,26 @@ const userSchema = new Schema({
     required: true,
     trim: true,
   },
+  password: {
+    type: String,
+    required: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
-    get: (timestamp) => dateFormat(timestamp),
   },
   comments: [
-    // reference comment schema
-  ]
+    comments
+  ],
+friends:[{
+        type:Schema.Types.ObjectId,
+        ref:'User'
+    }]
+    
 });
-
-const Thought = model('User', userSchema);
+userSchema.virtual('friendCount').get(function(){
+    return this.friends.length
+});
+const User = model('User', userSchema);
 
 module.exports = User;

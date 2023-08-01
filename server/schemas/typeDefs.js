@@ -1,2 +1,37 @@
+const { gql } = require("apollo-server-express");
 
-// typedefs
+const typeDefs = gql`
+
+
+
+type User{
+
+    _id:ID
+    email: String
+    
+      username: String
+    
+      password:String
+comments:[comments]
+       
+   
+}
+type comments{
+    commentText:String
+    commentAuthor:String
+   
+
+
+}
+
+type Query{
+    user:[User]
+}
+
+
+
+
+
+
+`
+module.exports = typeDefs

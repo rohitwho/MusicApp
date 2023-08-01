@@ -5,7 +5,6 @@ const userSchema = new Schema({
   email: {
     type: String,
     trim: true,
-    //Mae
     match: [/.+@.+\..+/, 'Must use a valid email address'],
   },
   username: {

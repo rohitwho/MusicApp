@@ -1,6 +1,6 @@
 
 
-const User = require("../models/user")
+const{ User }= require("../models")
 
 
 
@@ -9,7 +9,7 @@ const resolvers = {
     {
         user: async () => {
 
-            await User.find({})
+            return await User.find({})
 
 
         }

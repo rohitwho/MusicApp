@@ -1,12 +1,14 @@
 
 import './App.css'
+import FetchPlaylist from "./pages/spotify"
 
 function App() {
   
 
   return (
     <>
-      <h1>hello World</h1>
+    <FetchPlaylist/>
+
     </>
   )
 }

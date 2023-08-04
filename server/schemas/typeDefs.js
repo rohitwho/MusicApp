@@ -10,11 +10,11 @@ type User{
      email: String
       username: String
       password:String
-     comments:[comments]
+     comments:[userComments]
        
    
 }
-type comments{
+type userComments{
     commentText:String
     commentAuthor:String
     commentId:ID !
@@ -22,6 +22,15 @@ type comments{
 
 
 }
+input addComment{
+    commentText:String
+    commentAuthor:String
+
+   
+
+
+}
+
 
 type Query{
     user: [User]
@@ -29,7 +38,7 @@ type Query{
 type Mutation{
   addUser (username: String!, email: String!, password: String!): User
   removeUser(username: String!): User
-  addComment(comment:comments): comments
+  addComment(comments: addComment): userComments
 removeComment(commentId: ID!): comments
 updateComment(commentId: ID!): comments
 }

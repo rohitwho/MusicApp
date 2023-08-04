@@ -21,13 +21,13 @@ const resolvers = {
         removeUser: async (parent, args) => {
             return await User.findOneAndDelete(args)
         },
-        addComment: async (parent, { comment }, context) => {
+        addComment: async (parent, { userComments }, context) => {
             if (context.user) {
 
                 const comments = await User.findOneAndUpdate({
                     _id: context.user._id
                 },
-                    { $push: { comment: comments } },
+                    { $push: { comments: userComments } },
                     { new: true }
 
 

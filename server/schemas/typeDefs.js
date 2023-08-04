@@ -22,6 +22,9 @@ type comments{
 
 
 }
+input addComments{
+    
+}
 
 type Query{
     user: [User]
@@ -29,7 +32,7 @@ type Query{
 type Mutation{
   addUser (username: String!, email: String!, password: String!): User
   removeUser(username: String!): User
-  addComment(comment:comments): comments
+  addComment(input:comments): comments
 removeComment(commentId: ID!): comments
 updateComment(commentId: ID!): comments
 }

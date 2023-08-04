@@ -8,7 +8,9 @@ import Playlist from './components/playlist';
 
 function App() {
   return (  
-      <Playlist/>
+    <div className="bg-red-300 text-3xl">Hello World
+    <Playlist />
+    </div>
   )
 }
 

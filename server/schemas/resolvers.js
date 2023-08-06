@@ -2,7 +2,7 @@
 
 const { User } = require("../models")
 
-const { ObjectId } = require('mongoose').Types;
+
 
 const resolvers = {
     Query:
@@ -21,25 +21,23 @@ const resolvers = {
         removeUser: async (parent, args) => {
             return await User.findOneAndDelete(args)
         },
-        addUserComment: async (parent, { userid,commentText,commentAuthor}) => {
-         
-console.log(userid)
-console.log(commentText)
-console.log(commentAuthor)
+        addUserComment: async (parent, {input },context) => {
+    try{
+        if(context.user){
 
-    
-                const comments = await User.findOneAndUpdate({
-                    id: userid
-                },
-                { $set: {userComments:{userid,commentText,commentAuthor}} },
-                { new: true }
-                
-                
-                )
-             
-                return comments
-            }
+            const comments = await User.findOneAndUpdate(
+                { _id: userid },
+            { $push: {comments:input }},
+            { new: true }
+            )
+         
+            return comments
         }
+    }catch(err){
+        console.error(err);
+    }
+}
+    }
     
 }
 

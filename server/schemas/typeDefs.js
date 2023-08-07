@@ -2,6 +2,18 @@ const { gql } = require("apollo-server-express");
 
 const typeDefs = gql`
 
+scalar GraphQLDateTime
+
+type UserMessages {
+    messageContent: String
+    messageId: ID!
+    createdAt: GraphQLDateTime
+}
+
+
+
+
+
 
 
 type User{
@@ -11,6 +23,7 @@ type User{
       username: String
       password:String
      comments:[comments]
+     messages:[UserMessages]
        
    
 }
@@ -26,7 +39,10 @@ type comments{
 type Query{
     user: [User]
 }
-
+type Mutation{
+    
+    addMessage(userId: ID!, messageContent: String): User
+}
 
 
 
@@ -34,3 +50,8 @@ type Query{
 
 `
 module.exports = typeDefs
+// input userMessages{
+//     messageContent:String
+//     userId:ID
+
+// }

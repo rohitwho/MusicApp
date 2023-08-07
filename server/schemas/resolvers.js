@@ -14,6 +14,20 @@ const resolvers = {
 
         }
     },
+    Mutation: {
+        addMessage: async (parent, { userId, messageContent }) => {
+            try {
+                const addMessage = await User.findByIdAndUpdate(
+               userId,
+                    { $push: { messages: { messageContent } } },
+                    { new: true }
+                );
+                return addMessage;
+            } catch (err) {
+                console.error(err);
+            }
+        },
+    },
 
 
 }

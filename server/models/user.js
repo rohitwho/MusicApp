@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose');
 const comments = require('./comments')
+const messageSchema = require("./message")
 
 const userSchema = new Schema({
   email: {
@@ -26,7 +27,10 @@ const userSchema = new Schema({
 friends:[{
         type:Schema.Types.ObjectId,
         ref:'User'
-    }]
+    }],
+    messages:[
+      messageSchema
+    ]
     
 });
 userSchema.virtual('friendCount').get(function(){

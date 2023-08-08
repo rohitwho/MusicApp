@@ -5,12 +5,13 @@ import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css'
 import Playlist from './components/playlist';
+import Playlist2 from './components/playlist2';
 
 function App() {
   return (  
-    <div className="bg-red-300 text-3xl">Hello World
-    <Playlist />
-    </div>
+    
+    <Playlist2 />
+    
   )
 }
 

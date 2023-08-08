@@ -22,16 +22,17 @@ type User{
      email: String
       username: String
       password:String
+
      comments:[comments]
      messages:[UserMessages]
+
        
    
 }
-type comments{
+type userComments{
+    userid:ID
     commentText:String
     commentAuthor:String
-    commentId:ID !
-   
 
 
 }
@@ -41,26 +42,33 @@ input Text{
     _id:ID
 }
 
-type Query{
+input AddComments{
+    userid:ID
+    commentText:String
+    commentAuthor:String
+}
+
+
+  type Query {
     user: [User]
 }
 type Mutation{
-    addUser(  email: String,
-        username: String,
-        password:String): User
-    addMessage(input :Text): User
-    
-    
+    addUser (username: String!, email: String!, password: String!): User
+    removeUser(username: String!): User
+    addComment(input: addComment): userComments
+    removeComment(commentId: ID!): comments
+    updateComment(commentId: ID!): comments
+
+
 }
 
 
 
+`;
+
+
+module.exports = typeDefs;
 
 
 `
-module.exports = typeDefs
-// input userMessages{
-//     messageContent:String
-//     userId:ID
 
-// }

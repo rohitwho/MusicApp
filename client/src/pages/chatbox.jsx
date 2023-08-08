@@ -47,8 +47,10 @@ export default function Chatbox() {
       display:"inline-flex",
       justifyContent:"flex-end",
       width:"80%",
-      marginInline:"2%",
+      margin:"2%",
       border:"2px solid black",
+      height:"60vh",
+      // backgroundColor:"whitesmoke"
     }}>
     <div style={
       {
@@ -123,6 +125,7 @@ export default function Chatbox() {
               marginInline: "1rem",
               width: "100%",
               alignItems: "center",
+              color:"whitesmoke"
             }}
           >
             <Input

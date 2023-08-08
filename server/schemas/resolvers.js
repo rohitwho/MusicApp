@@ -15,6 +15,10 @@ const resolvers = {
         }
     },
     Mutation: {
+        addUser: async(parent,args)=>{
+            const newUser = await User.create(args)
+            return newUser
+        },
         addMessage: async (parent, { input }) => {
             try {
                 const addMessage = await User.findByIdAndUpdate(

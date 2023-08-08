@@ -45,7 +45,9 @@ type Query{
     user: [User]
 }
 type Mutation{
-    
+    addUser(  email: String,
+        username: String,
+        password:String): User
     addMessage(input :Text): User
     
     

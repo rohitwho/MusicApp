@@ -2,11 +2,13 @@
 import React from "react";
 import Logo from "../assets/logo.png"
 import {Navbar, NavbarBrand, NavbarContent,NavbarMenuToggle ,NavbarMenuItem,NavbarMenu, NavbarItem, Link, Button} from "@nextui-org/react";
-// import {AcmeLogo} from "./AcmeLogo.jsx";
+import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter,  useDisclosure, Checkbox, Input, } from "@nextui-org/react";
 import { GET_MESSAGES } from "../utils/queries";
 import { useQuery } from "@apollo/client";
-
+import MailFilledIcon from '../assets/MailIcon';
+import {LockIcon} from '../assets/LockIcon';
 export default function App() {
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const {data } = useQuery(GET_MESSAGES);
 
 
@@ -17,11 +19,11 @@ export default function App() {
   const menuItems = [
     "Profile",
     "Dashboard",
-
-    `Log Out as ${userName.email}`,
+    `Log Out as ${userName.username}`,
   ];
 
   return (
+    <div>
     <Navbar
       isBordered
       isMenuOpen={isMenuOpen}
@@ -54,7 +56,7 @@ export default function App() {
           <Link href="#">Login</Link>
         </NavbarItem>
         <NavbarItem>
-          <Button as={Link} color="warning" href="#" variant="flat">
+          <Button  onPress={onOpen} as={Link} color="primary" href="#" variant="flat">
             Sign Up
           </Button>
         </NavbarItem>
@@ -66,7 +68,7 @@ export default function App() {
             <Link
               className="w-full"
               color={
-                index === 2 ? "warning" : index === menuItems.length - 1 ? "danger" : "foreground"
+                index === 2 ? "primary" : index === menuItems.length - 1 ? "danger" : "foreground"
               }
               href="#"
               size="lg"
@@ -77,5 +79,68 @@ export default function App() {
         ))}
       </NavbarMenu>
     </Navbar>
+
+
+
+  <Modal
+    isOpen={isOpen}
+    onOpenChange={onOpenChange}
+    placement="top-center"
+  >
+    <ModalContent>
+      {(onClose) => (
+        <>
+          <ModalHeader className="flex flex-col gap-1">Log in</ModalHeader>
+          <ModalBody>
+            <Input
+              autoFocus
+              endContent={
+                <MailFilledIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+              }
+              label="Email"
+              placeholder="Enter your email"
+              variant="bordered"
+            />
+            <Input
+              endContent={
+                <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
+              }
+              label="Password"
+              placeholder="Enter your password"
+              type="password"
+              variant="bordered"
+            />
+            <div className="flex py-2 px-1 justify-between">
+              <Checkbox
+                classNames={{
+                  label: "text-small",
+                }}
+              >
+                Remember me
+              </Checkbox>
+              <Link color="primary" href="#" size="sm">
+                Forgot password?
+              </Link>
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="danger" variant="flat" onClick={onClose}>
+              Close
+            </Button>
+            <Button color="primary" onPress={onClose}>
+              Sign in
+            </Button>
+          </ModalFooter>
+        </>
+      )}
+    </ModalContent>
+  </Modal>
+</div>
+
   );
 }
+
+
+
+
+

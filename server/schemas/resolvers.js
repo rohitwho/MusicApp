@@ -31,14 +31,14 @@ const resolvers = {
                     { $push: { comments: userComments } },
                     { new: true }
 
-
                 )
-
                 return comments
             }
-        },
-    }
+        }
     
-}
+    catch (err) {
+        console.log(err)
+    }
+};
 
 module.exports = resolvers

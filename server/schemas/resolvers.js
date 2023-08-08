@@ -21,6 +21,8 @@ const resolvers = {
             const token = signToken(user)
             return { token, user }
         },
+
+
         login: async (parent, { email, password }) => {
             const user = await User.findOne({ email });
 
@@ -37,27 +39,12 @@ const resolvers = {
             const token = signToken(user);
             return { token, user };
         },
+
+
         removeUser: async (parent, args) => {
             return await User.findOneAndDelete(args)
         },
-        addUserComment: async (parent, { input }, context) => {
-            try {
-                if (context.user) {
 
-            const comments = await User.findOneAndUpdate(
-                { _id: userid },
-            { $push: {comments:input }},
-            { new: true }
-            )
-         
-            return comments
-        }
-    }catch(err){
-        console.error(err);
-    }
-}
-    }
-    
 
         addMessage: async (parent, { input }) => {
             try {
@@ -71,10 +58,34 @@ const resolvers = {
                 console.error(err);
             }
         },
+
+
+
+    
+        addUserComment: async (parent, { input }, context) => {
+            try {
+                if (context.user) {
+
+            const comments = await User.findOneAndUpdate(
+                { _id: userid },
+            { $push: {comments:input }},
+            { new: true }
+            )
+         
+            return comments
+        }
+     }catch(err){
+        console.error(err);
+     }
+  }
     },
+    
 
-
-
+       
 }
+
+
+
+
 
 module.exports = resolvers

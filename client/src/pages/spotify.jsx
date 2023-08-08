@@ -1,64 +1,72 @@
-// fetchPlaylist.js
+// // fetchPlaylist.js
 
-import React, { useEffect } from 'react';
-import { useSpotify } from './spotifyContext';
+// import React, { useEffect } from 'react';
+// import { useSpotify } from './spotifyContext';
 
-async function fetchWebApi(endpoint, method, body, token) {
-  const res = await fetch(`https://api.spotify.com/${endpoint}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-    method,
-    body: JSON.stringify(body),
-  });
-  return await res.json();
-}
+// async function fetchWebApi(endpoint, method, body, token) {
+//   console.log(token);
+// const options = method === 'POST' ? {
+//   headers: {
+//     Authorization: `Bearer ${token}`,
+//   },
+//   method,
+//   body: JSON.stringify(body),
+// } : {
+//   headers: {
+//     Authorization: `Bearer ${token}`,
+//   },
+//   method
+// }
 
-async function createPlaylist(tracksUri, token) {
-  const { id: user_id } = await fetchWebApi('v1/me', 'GET', null, token);
+//   const res = await fetch(`https://api.spotify.com/${endpoint}`, options);
+//   return await res.json();
+// }
 
-  const playlist = await fetchWebApi(`v1/users/${user_id}/playlists`, 'POST', {
-    name: 'My recommendation playlist',
-    description: 'Playlist created by the tutorial on developer.spotify.com',
-    public: false,
-  }, token);
+// async function createPlaylist(tracksUri, token) {
+//   const { id: user_id } = await fetchWebApi('v1/me', 'GET', null, token);
 
-  await fetchWebApi(`v1/playlists/${playlist.id}/tracks?uris=${tracksUri.join(',')}`, 'POST', null, token);
+//   const playlist = await fetchWebApi(`v1/users/${user_id}/playlists`, 'POST', {
+//     name: 'My recommendation playlist',
+//     description: 'Playlist created by the tutorial on developer.spotify.com',
+//     public: false,
+//   }, token);
 
-  return playlist;
-}
+//   await fetchWebApi(`v1/playlists/${playlist.id}/tracks?uris=${tracksUri.join(',')}`, 'POST', null, token);
 
-export default function FetchPlaylist(createdPlaylist) {
-  const { token, setCreatedPlaylist } = useSpotify();
-  const tracksUri = [
-    'spotify:track:5RkmFc8hMhckt6HJ80n3Rl', // Add your track URIs here
-    // Add more track URIs as needed
-  ];
+//   return playlist;
+// }
 
-  useEffect(() => {
-    const createPlaylistAndSetState = async () => {
-      const playlist = await createPlaylist(tracksUri, token);
-      setCreatedPlaylist(playlist);
-    };
-    createPlaylistAndSetState();
-  }, [token, setCreatedPlaylist]);
+// export default function FetchPlaylist(createdPlaylist) {
+//   const { token, setCreatedPlaylist } = useSpotify();
+//   const tracksUri = [
+//     'spotify:track:5RkmFc8hMhckt6HJ80n3Rl', // Add your track URIs here
+//     // Add more track URIs as needed
+//   ];
 
-  if (!createdPlaylist) {
-    return <div>Loading...</div>;
-  }
+//   useEffect(() => {
+//     const createPlaylistAndSetState = async () => {
+//       const playlist = await createPlaylist(tracksUri, token);
+//       setCreatedPlaylist(playlist);
+//     };
+//     createPlaylistAndSetState();
+//   }, [token, setCreatedPlaylist]);
 
-  const playlistId = createdPlaylist.id;
+//   if (!createdPlaylist) {
+//     return <div>Loading...</div>;
+//   }
 
-  return (
-    <iframe
-      title="Spotify Embed: Recommendation Playlist"
-      src={`https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=0`}
-      width="100%"
-      height="100%"
-      style={{ minHeight: '360px' }}
-      // frameBorder="0"
-      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-      loading="lazy"
-    />
-  );
-}
+//   const playlistId = createdPlaylist.id;
+
+//   return (
+//     <iframe
+//       title="Spotify Embed: Recommendation Playlist"
+//       src={`https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=0`}
+//       width="100%"
+//       height="100%"
+//       style={{ minHeight: '360px' }}
+//       // frameBorder="0"
+//       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+//       loading="lazy"
+//     />
+//   );
+// }

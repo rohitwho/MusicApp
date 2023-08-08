@@ -15,11 +15,11 @@ const resolvers = {
         }
     },
     Mutation: {
-        addMessage: async (parent, { userId, messageContent }) => {
+        addMessage: async (parent, { input }) => {
             try {
                 const addMessage = await User.findByIdAndUpdate(
-               userId,
-                    { $push: { messages: { messageContent } } },
+                  {_id:  input.userId},
+                    { $push: { messages: input } },
                     { new: true }
                 );
                 return addMessage;

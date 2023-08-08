@@ -6,7 +6,7 @@ scalar GraphQLDateTime
 
 type UserMessages {
     messageContent: String
-    messageId: ID!
+    _Id: ID!
     createdAt: GraphQLDateTime
 }
 
@@ -35,13 +35,20 @@ type comments{
 
 
 }
+input Text{
+    messageContent: String
+    userId: ID!
+    _id:ID
+}
 
 type Query{
     user: [User]
 }
 type Mutation{
     
-    addMessage(userId: ID!, messageContent: String): User
+    addMessage(input :Text): User
+    
+    
 }
 
 

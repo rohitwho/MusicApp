@@ -1,12 +1,12 @@
 
 import React from "react";
-import Logo from "../assets/logo.png"
+import Logo from "../../assets/logo.png"
 import {Navbar, NavbarBrand, NavbarContent,NavbarMenuToggle ,NavbarMenuItem,NavbarMenu, NavbarItem, Link, Button} from "@nextui-org/react";
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter,  useDisclosure, Checkbox, Input, } from "@nextui-org/react";
-import { GET_MESSAGES } from "../utils/queries";
+import { GET_MESSAGES } from "../../utils/queries";
 import { useQuery } from "@apollo/client";
-import MailFilledIcon from '../assets/MailIcon';
-import {LockIcon} from '../assets/LockIcon';
+import MailFilledIcon from './MailIcon';
+import {LockIcon} from './LockIcon';
 export default function App() {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const {data } = useQuery(GET_MESSAGES);
@@ -15,6 +15,7 @@ export default function App() {
   const userName = data?.user[0]|| {};
   
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+
 
   const menuItems = [
     "Profile",
@@ -100,6 +101,7 @@ export default function App() {
               label="Email"
               placeholder="Enter your email"
               variant="bordered"
+        
             />
             <Input
               endContent={

@@ -1,7 +1,7 @@
 
 
 // import FetchPlaylist from "./pages/spotify"
-import Navbar from "./Components/Navbar"
+import Navbar from "./Components/Navbar/Navbar"
 import Chatbox from "./pages/chatbox"
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
@@ -20,7 +20,7 @@ function App() {
 
     <Navbar/>
     <Chatbox/>
-    {/* <FetchPlaylist/> */}
+
 
     </>
     </ApolloProvider>

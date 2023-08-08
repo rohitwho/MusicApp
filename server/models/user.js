@@ -1,6 +1,10 @@
 const { Schema, model } = require('mongoose');
 const comments = require('./comments')
+
 const bcrypt = require("bcrypt")
+
+const messageSchema = require("./message")
+
 const userSchema = new Schema({
   email: {
     type: String,
@@ -23,14 +27,19 @@ const userSchema = new Schema({
   comments: [
     comments
   ],
+
   friends: [{
     type: Schema.Types.ObjectId,
     ref: 'User'
-  }]
+  }],
+                                messages:[
+      messageSchema
+    ]
 
 });
 userSchema.virtual('friendCount').get(function () {
   return this.friends.length
+
 });
 
 userSchema.pre('save', async function (next) {

@@ -15,6 +15,7 @@ const resolvers = {
         }
     },
     Mutation: {
+
         addUser: async (parent, args) => {
             const user = await User.create(args)
             const token = signToken(user)
@@ -57,6 +58,23 @@ const resolvers = {
 }
     }
     
+
+        addMessage: async (parent, { input }) => {
+            try {
+                const addMessage = await User.findByIdAndUpdate(
+                  {_id:  input.userId},
+                    { $push: { messages: input } },
+                    { new: true }
+                );
+                return addMessage;
+            } catch (err) {
+                console.error(err);
+            }
+        },
+    },
+
+
+
 }
 
 module.exports = resolvers

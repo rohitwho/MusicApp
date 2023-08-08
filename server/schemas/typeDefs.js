@@ -24,7 +24,7 @@ type User{
       username: String
       password:String
 
-     comments:[comments]
+     comments:[userComments]
      messages:[UserMessages]
 
        
@@ -37,16 +37,21 @@ type userComments{
 
 
 }
-input Text{
-    messageContent: String
-    userId: ID!
-    _id:ID
-}
+
 
 input AddComments{
     userid:ID
     commentText:String
     commentAuthor:String
+}
+type Auth{
+    token:ID
+    user:User
+}
+input Text{
+    messageContent: String
+    userId: ID!
+    _id:ID
 }
 
 
@@ -54,14 +59,15 @@ input AddComments{
     user: [User]
 }
 type Mutation{
-    addUser (username: String!, email: String!, password: String!): User
+  
+    addUser (username: String!, email: String!, password: String!): Auth
+    login(email:String!, password:String!): Auth
     removeUser(username: String!): User
-    addComment(input: addComment): userComments
-    removeComment(commentId: ID!): comments
-    updateComment(commentId: ID!): comments
-
-
-}
+    addUserComment(input:AddComments): User
+    addMessage(input :Text): User
+    removeUserComment(commentId: ID): User
+  }
+  
 
 
 
@@ -71,5 +77,4 @@ type Mutation{
 module.exports = typeDefs;
 
 
-`
 

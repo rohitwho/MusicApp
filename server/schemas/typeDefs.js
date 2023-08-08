@@ -32,10 +32,11 @@ type Query{
     user: [User]
 }
 type Mutation{
-  addUser (username: String!, email: String!, password: String!): User
-  removeUser(username: String!): User
-  addUserComment(input:AddComments): User
-
+    addUser (username: String!, email: String!, password: String!): User
+    removeUser(username: String!): User
+    addComment(input: addComment): userComments
+    removeComment(commentId: ID!): comments
+    updateComment(commentId: ID!): comments
 }
 
 

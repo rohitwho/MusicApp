@@ -25,18 +25,18 @@ const resolvers = {
     try{
         if(context.user){
 
-            const comments = await User.findOneAndUpdate(
-                { _id: userid },
-            { $push: {comments:input }},
-            { new: true }
-            )
-         
-            return comments
-        }
-    }catch(err){
-        console.error(err);
-    }
-}
+                const comments = await User.findOneAndUpdate({
+                    _id: context.user._id
+                },
+                    { $push: { comments: userComments } },
+                    { new: true }
+
+
+                )
+
+                return comments
+            }
+        },
     }
     
 }

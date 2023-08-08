@@ -14,39 +14,31 @@ type User{
        
    
 }
-
 type userComments{
-    commentId :ID
+    userid:ID
     commentText:String
     commentAuthor:String
 
 
-}
-type Auth{
-    token:ID
-    user:User
 }
 
 input AddComments{
-    commentId:ID
+    userid:ID
     commentText:String
     commentAuthor:String
 }
 
-type Query{
+  type Query {
     user: [User]
 }
 type Mutation{
-  addUser (username: String!, email: String!, password: String!): Auth
-  login(email:String!, password:String!): Auth
-  removeUser(username: String!): User
-  addUserComment( input: AddComments): User
-  removeUserComment(commentId: ID): User
+    addUser (username: String!, email: String!, password: String!): User
+    removeUser(username: String!): User
+    addComment(input: addComment): userComments
+    removeComment(commentId: ID!): comments
+    updateComment(commentId: ID!): comments
 }
 
 
 
 
-
-`
-module.exports = typeDefs

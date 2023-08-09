@@ -16,7 +16,7 @@ const resolvers = {
     },
     Mutation: {
 
-        addUser: async (parent, args) => {
+        signup: async (parent, args) => {
             const user = await User.create(args)
             const token = signToken(user)
             return { token, user }
@@ -62,27 +62,25 @@ const resolvers = {
 
 
     
-        addUserComment: async (parent, { input }, context) => {
+        addUserComment: async (parent, { userid,commentText,commentAuthor}, context) => {
             try {
-                if (context.user) {
-
-            const comments = await User.findOneAndUpdate(
+                      const comments = await User.findOneAndUpdate(
                 { _id: userid },
-            { $push: {comments:input }},
+            { $push: {comments:{commentText,commentAuthor} }},
             { new: true }
             )
          
             return comments
-        }
-     }catch(err){
-        console.error(err);
+        }catch(err){
+            console.error(err);
+         }
      }
   }
-    },
+    }
     
 
        
-}
+
 
 
 

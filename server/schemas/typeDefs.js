@@ -12,10 +12,6 @@ type UserMessages {
 
 
 
-
-
-
-
 type User{
 
     _id:ID
@@ -38,11 +34,6 @@ type userComments{
 }
 
 
-input AddComments{
-    userid:ID
-    commentText:String
-    commentAuthor:String
-}
 type Auth{
     token:ID
     user:User
@@ -59,10 +50,10 @@ input Text{
 }
 type Mutation{
   
-    addUser (username: String!, email: String!, password: String!): Auth
+    signup(username: String!, email: String!, password: String!): Auth
     login(email:String!, password:String!): Auth
     removeUser(username: String!): User
-    addUserComment(input:AddComments): User
+    addUserComment( userid:ID,commentText:String, commentAuthor:String): User
     addMessage(input :Text): User
     removeUserComment(commentId: ID): User
   }
@@ -72,8 +63,10 @@ type Mutation{
 
 `;
 
-
 module.exports = typeDefs;
 
-
-
+// input AddComments{
+//     userid:ID
+//     commentText:String
+//     commentAuthor:String
+// }

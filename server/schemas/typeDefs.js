@@ -59,7 +59,7 @@ input Text{
 }
 type Mutation{
   
-    addUser (username: String!, email: String!, password: String!): Auth
+    signup (username: String!, email: String!, password: String!): Auth
     login(email:String!, password:String!): Auth
     removeUser(username: String!): User
     addUserComment(input:AddComments): User

@@ -50,7 +50,7 @@ input Text{
 }
 type Mutation{
   
-    signup(username: String!, email: String!, password: String!): Auth
+    signup (username: String!, email: String!, password: String!): Auth
     login(email:String!, password:String!): Auth
     removeUser(username: String!): User
     addUserComment( userid:ID,commentText:String, commentAuthor:String): User

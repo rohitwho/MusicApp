@@ -5,6 +5,9 @@ import { SEND_MESSAGE } from "../utils/mutation";
 import { Input } from "@nextui-org/react";
 import { Button } from "@nextui-org/react";
 import { Avatar } from "@nextui-org/react";
+import SpotifyInit from "../utils/Api/spotifyLogin"
+// import SpotifyPlayer from "./spotify"
+
 
 
 export default function Chatbox() {
@@ -43,116 +46,135 @@ export default function Chatbox() {
   };
 
   return (
-    <section style={{
-      display:"inline-flex",
-      justifyContent:"flex-end",
-      width:"80%",
-      margin:"2%",
-      border:"2px solid black",
-      height:"60vh",
-      // backgroundColor:"whitesmoke"
-    }}>
-    <div style={
-      {
-        borderRight:"2px solid black",
-        width:"20%"
+ <main style = {{
+  display:"flex",
 
-      }
-    }> 
-    <h2 style={{
+ }}>
+   <div style={{
+    width:"50%",
+
+   }}>
+     <SpotifyInit style={{
+      justifyContent:"center",
       display:"flex",
-      margin:"1rem",
-      color:"white"
-
-    }}>Friends</h2>
-    
-    
-    <ul>
-    <li style = {{display:"inline-flex",
-    gap:"10px",
-    alignItems:"center",
-    textTransform:"capitalize",
-    borderBottom:"inset",
-    width:"100%",
-    color:"white",
-  paddingInline:"0.6rem"}}><Avatar/> {userData.username}</li>
-  </ul></div>
-      <div
-        className="Primary-Chat"
-        style={{
-  
-          display: "",
-        }}>
-       
-        {userData.messages?.map(
-          ({ user: messageUser, messageContent }, index) => (
-            <div
-              key={index}
-              style={{
-                position:"sticky",
-                display: "flex",
-                justifyContent:
-                  userData.username === messageUser ? "flex-start" : "flex-end",
-                paddingBottom: "1em",
-              }}
-            >
+      alignItems:"center"
+     }} />
+   </div>
+      <section style={{
+        display:"flex",
+        justifyContent:"center",
+       width:"100%",
+        margin:"2%",
+        border:"2px solid black",
+   
+        // backgroundColor:"whitesmoke"
+      }}>
+        <div>
+        </div>
+          {/* <div style={{
+            borderRight:"inset",
+            width:"30%"
+          }}><SpotifyPlaylist/></div> */}
+      <div style={
+        {
+          borderRight:"2px solid black",
+          width:"2 0%"
+        }
+      }>
+      <h2 style={{
+        display:"flex",
+        margin:"1rem",
+        color:"white"
+      }}>Friends</h2>
+   
+   
+      <ul>
+      <li style = {{display:"flex",
+      gap:"10px",
+      alignItems:"flex-start",
+      textTransform:"capitalize",
+      borderBottom:"inset",
+      width:"100%",
+      color:"white",
+    }}><Avatar/> {userData.username}</li>
+    </ul></div>
+        <div
+          className="Primary-Chat"
+          style={{
+   
+            display: "",
+          }}>
+   
+          {userData.messages?.map(
+            ({ user: messageUser, messageContent }, index) => (
               <div
+                key={index}
                 style={{
-                  background:
-                    userData.username === messageUser ? "green" : "#027aff",
-                  color: userData.username === messageUser ? "black" : "white",
-                  padding: "1em",
-                  borderRadius: "10px 20px",
-                  maxWidth: "60%",
+                  position:"sticky",
+                  display: "flex",
+                  justifyContent:
+                    userData.username === messageUser ? "flex-start" : "flex-end",
+                  paddingBottom: "1em",
                 }}
               >
-                {messageContent}
+                <div
+                  style={{
+                    background:
+                      userData.username === messageUser ? "green" : "#027aff",
+                    color: userData.username === messageUser ? "black" : "white",
+                    padding: "1em",
+                    borderRadius: "10px 20px",
+                    maxWidth: "60%",
+                  }}
+                >
+                  {messageContent}
+                </div>
+                <Avatar
+                  style={{
+                    marginInline: "0.6rem",
+                  }}
+                  isBordered
+                  color="secondary"
+                  src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                />
               </div>
-              <Avatar
-                style={{
-                  marginInline: "1rem",
-                }}
-                isBordered
-                color="secondary"
-                src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+            )
+          )}
+          <main className=" flex  justify-center ">
+            <div
+              style={{
+                marginInline: "1rem",
+                width: "100%",
+                alignItems: "center",
+                color:"whitesmoke"
+              }}
+            >
+              <Input
+                isClearable
+                type="email"
+                label="Message"
+                variant="bordered"
+                value={inputValue}
+                onChange={handlechange}
+                onClear={() => console.log("input cleared")}
               />
             </div>
-          )
-        )}
-        <main className=" flex  justify-center ">
-          <div
-            style={{
-              marginInline: "1rem",
-              width: "100%",
-              alignItems: "center",
-              color:"whitesmoke"
-            }}
-          >
-            <Input
-              isClearable
-              type="email"
-              label="Message"
-              variant="bordered"
-              value={inputValue}
-              onChange={handlechange}
-              onClear={() => console.log("input cleared")}
-            />
-          </div>
-          <Button
-            onClick={handleText}
-            style={{
-              marginInline: "1rem",
-              alignItems: "center",
-              display: "flex",
-              justifyContent: "center",
-            }}
-            color="primary"
-            variant="ghost"
-          >
-            Send
-          </Button>
-        </main>
-      </div>
-    </section>
+            <Button
+              onClick={handleText}
+              style={{
+                marginInline: "1rem",
+                alignItems: "center",
+                display: "flex",
+                justifyContent: "center",
+              }}
+              color="primary"
+              variant="ghost"
+            >
+              Send
+            </Button>
+          </main>
+        </div>
+      </section>
+ </main>
   );
 }

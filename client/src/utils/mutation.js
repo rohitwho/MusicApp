@@ -20,3 +20,9 @@ mutation Mutation($input: Text) {
 
 
 `
+export const SIGN_UP = gql`
+
+
+
+
+`

@@ -2,18 +2,27 @@ const { AuthenticationError } = require('apollo-server-express');
 const { User } = require('../models');
 const { signToken } = require('../utls/auth');
 
-
+// user: async (parent, args, context) => {
+//     try {
+//       if (context.user) {
+//         const userData = await User.findById(context.user._id).select('-__v -password');
+//         return userData;
+//       } else {
+//         throw new AuthenticationError('Not logged in');
+//       }
+//     } catch (err) {
+//       console.error(err);
+//       throw new Error('An error occurred while fetching user data');
+//     }
+//   },
 
 const resolvers = {
-    Query:
-    {
-        user: async () => {
-
-            return await User.find({})
-
-
+    Query: {
+    user:async()=>{
+return User.find({}) 
         }
-    },
+        
+      },
     Mutation: {
 
         signup: async (parent, args) => {

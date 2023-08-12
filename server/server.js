@@ -4,19 +4,115 @@ const path = require('path');
 const { authMiddleware } = require("./utls/auth.js")
 const { typeDefs, resolvers } = require('./schemas');
 const db = require('./config/connection');
+var bodyParser = require('body-parser')
+var cors = require('cors')
+const SpotifyWebApi = require('spotify-web-api-node');
 
 const PORT = process.env.PORT || 3001;
 
 
 const app = express();
+
+app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json())
+app.use(cors())
+
+
+
+app.post ("/refresh" ,(req,res)=>{
+const refreshToken = req.body.refreshToken
+const client_id="bdd9da03ae0b4e068945d124833236e3";
+const client_secret = "c8134b1d8304455381ac20e549583a77"
+
+const spotifyApi = new SpotifyWebApi({
+  clientId: client_id,
+  clientSecret: client_secret,
+  redirectUri: "http://localhost:5173",
+  refreshToken
+
+})
+spotifyApi.refreshAccessToken().then(
+  (data)=>{
+    res.json({
+
+      accessToken: data.body.access_token,
+      expiresIn:data.body.expires_in
+    })
+
+
+    spotifyApi.setAccessToken(data.body["access_token"])
+  }
+).catch((err)=>{
+  console.log(err)
+  res.status()
+})
+
+
+
+
+
+
+
+
+
+})
+
+app.post("/login",(req,res)=>{
+  const code = req.body.code
+  const client_id="bdd9da03ae0b4e068945d124833236e3";
+  const client_secret = "c8134b1d8304455381ac20e549583a77"
+  
+  const spotifyApi = new SpotifyWebApi({
+    clientId: client_id,
+    clientSecret: client_secret,
+    redirectUri: "http://localhost:5173"
+  });
+  console.log(code)
+spotifyApi.authorizationCodeGrant(code).then(data =>{
+  res.json({
+    accessToken: data.body.access_token,
+    refreshToken : data.body.refresh_token,
+    expiresIn: data.body.expires_in
+  })
+}).catch((err)=>{
+  console.log(err)
+  res.status()
+})
+
+})
+
+
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: authMiddleware
 });
+// app.post("/spotify",(req,res)=>{
+// const client_id="bdd9da03ae0b4e068945d124833236e3";
+// const client_secret = "c8134b1d8304455381ac20e549583a77"
 
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
+// const code = req.query.code
+// const authOptions = {
+//   url: 'https://accounts.spotify.com/api/token',
+//   form: {
+//     code: code,
+//     redirect_uri: "http://localhost:3001",
+//     grant_type: 'authorization_code'
+//   },
+//   headers: {
+//     'Authorization': 'Basic ' + (new Buffer.from(client_id + ':' + client_secret).toString('base64'))
+//   },
+//   json: true}
+
+// res.status(200).json()
+
+
+
+
+// })
+
+// app.use(express.json());
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));

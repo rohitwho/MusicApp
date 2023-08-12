@@ -16,6 +16,8 @@
     "concurrently": "^5.1.0"
   },
   "dependencies": {
+    "body-parser": "^1.20.2",
+    "spotify-web-api-node": "^5.0.2",
     "ws": "^8.13.0"
   }
 }

@@ -12,6 +12,7 @@
   "dependencies": {
     "@apollo/client": "^3.7.17",
     "@nextui-org/react": "^2.0.5",
+    "axios": "^1.4.0",
     "framer-motion": "^10.15.0",
     "graphql": "^16.7.1",
     "graphql-ws": "^5.14.0",

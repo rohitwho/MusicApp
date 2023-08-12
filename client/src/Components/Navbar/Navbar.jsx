@@ -1,12 +1,16 @@
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Logo from "../../assets/logo.png"
 import {Navbar, NavbarBrand, NavbarContent,NavbarMenuToggle ,NavbarMenuItem,NavbarMenu, NavbarItem, Link, Button} from "@nextui-org/react";
-import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter,  useDisclosure, Checkbox, Input, } from "@nextui-org/react";
+import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter,  useDisclosure, Checkbox, Input} from "@nextui-org/react";
 import { GET_MESSAGES } from "../../utils/queries";
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import MailFilledIcon from './MailIcon';
 import {LockIcon} from './LockIcon';
+import Auth from '../../utils/auth';
+import { LOGIN_USER } from "../../utils/mutation";
+
+
 export default function App() {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const {data } = useQuery(GET_MESSAGES);
@@ -23,7 +27,59 @@ export default function App() {
     `Log Out as ${userName.username}`,
   ];
 
-  return (
+    const [userFormData, setUserFormData] = useState({ email: '', password: '' });
+    const [validated] = useState(false);
+    const [showAlert, setShowAlert] = useState(false);
+  
+    const handleInputChange = (event) => {
+    //   const { name, value} = event.target;
+      setUserFormData({ ...userFormData });
+    };
+    console.log(setUserFormData)
+  
+    const [loginUser, {error}] = useMutation(LOGIN_USER);
+  
+    // useEffect(() => {
+    //   if (error) {
+    //     setShowAlert(true);
+    //   } else {
+    //     setShowAlert(false);
+    //   }
+    // }, [error]);
+  
+    const handleFormSubmit = async (event) => {
+      event.preventDefault();
+  
+      // check if form has everything (as per react-bootstrap docs)
+      const form = event.currentTarget;
+      if (form.checkValidity() === false) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+  
+      try {
+        const { data } = await loginUser({
+          variables: { ...userFormData }
+        });
+  
+        if (!data) {
+          throw new Error('something went wrong!');
+        }
+  
+        console.log(data);
+        Auth.login(data.login.token);
+  
+      } catch (err) {
+        console.error(err);
+      }
+  
+      setUserFormData({
+        username: '',
+        email: '',
+        password: '',
+      });
+    };
+    return (
     <div>
     <Navbar
       isBordered
@@ -58,7 +114,7 @@ export default function App() {
         </NavbarItem>
         <NavbarItem>
           <Button  onPress={onOpen} as={Link} color="primary" href="#" variant="flat">
-            Sign Up
+            Login
           </Button>
         </NavbarItem>
       </NavbarContent>
@@ -87,10 +143,14 @@ export default function App() {
     isOpen={isOpen}
     onOpenChange={onOpenChange}
     placement="top-center"
-  >
-    <ModalContent>
-      {(onClose) => (
+    noValidate validated={validated}
+    onSubmit={handleFormSubmit}>
+   <ModalContent>
+     {(onClose) => (
         <>
+        {/* <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger'>
+          Something went wrong with your login credentials!
+        </Alert> */}
           <ModalHeader className="flex flex-col gap-1">Log in</ModalHeader>
           <ModalBody>
             <Input
@@ -101,7 +161,9 @@ export default function App() {
               label="Email"
               placeholder="Enter your email"
               variant="bordered"
-        
+              value={userFormData.email}
+              onValueChange={handleInputChange}
+              name='email'
             />
             <Input
               endContent={
@@ -111,6 +173,9 @@ export default function App() {
               placeholder="Enter your password"
               type="password"
               variant="bordered"
+              value={userFormData.password}
+              onValueChange={handleInputChange}
+              name='password'
             />
             <div className="flex py-2 px-1 justify-between">
               <Checkbox
@@ -126,10 +191,15 @@ export default function App() {
             </div>
           </ModalBody>
           <ModalFooter>
-            <Button color="danger" variant="flat" onClick={onClose}>
+            <Button color="danger" variant="flat" onPress={onClose}>
               Close
             </Button>
-            <Button color="primary" onPress={onClose}>
+            <Button color="primary" 
+              onPress={onClose}
+              isDisabled={(userFormData.email && userFormData.password)}
+              type='submit'
+              variant='faded'
+              >
               Sign in
             </Button>
           </ModalFooter>

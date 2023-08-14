@@ -27,4 +27,39 @@ query Query {
 
 
 `
+export  const GET_USER = gql`
+query User {
+  user {
+    username
+    email
+    _id
+    comments {
+      userid
+      commentText
+      commentAuthor
+    }
+    friends {
+      username
+      messages {
+        messageContent
+        createdAt
+        _id
+      }
+    
+      email
+      comments {
+        userid
+        commentText
+        commentAuthor
+      }
+      _id
+    }
+    messages {
+      messageContent
+      createdAt
+      _id
+    }
+  }
+}
+`
 

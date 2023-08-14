@@ -1,72 +1,131 @@
-// // fetchPlaylist.js
 
-// import React, { useEffect } from 'react';
-// import { useSpotify } from './spotifyContext';
 
-// async function fetchWebApi(endpoint, method, body, token) {
-//   console.log(token);
-// const options = method === 'POST' ? {
-//   headers: {
-//     Authorization: `Bearer ${token}`,
-//   },
-//   method,
-//   body: JSON.stringify(body),
-// } : {
-//   headers: {
-//     Authorization: `Bearer ${token}`,
-//   },
-//   method
-// }
+import {useEffect,useState} from "react";
+import useAuth from "../utils/Api/useAuthSpotify";
+import SpotifyWebApi from "spotify-web-api-node";
+import {Input} from "@nextui-org/react";
+import SpotifyDashboard from "../Components/spotify/SpotifyDashboard";
 
-//   const res = await fetch(`https://api.spotify.com/${endpoint}`, options);
-//   return await res.json();
-// }
 
-// async function createPlaylist(tracksUri, token) {
-//   const { id: user_id } = await fetchWebApi('v1/me', 'GET', null, token);
+const spotifyApi = new SpotifyWebApi({
+    clientId:"bdd9da03ae0b4e068945d124833236e3"
+})
 
-//   const playlist = await fetchWebApi(`v1/users/${user_id}/playlists`, 'POST', {
-//     name: 'My recommendation playlist',
-//     description: 'Playlist created by the tutorial on developer.spotify.com',
-//     public: false,
-//   }, token);
 
-//   await fetchWebApi(`v1/playlists/${playlist.id}/tracks?uris=${tracksUri.join(',')}`, 'POST', null, token);
 
-//   return playlist;
-// }
+export default function SpotifyPlayer({code}){
+    const accessToken = useAuth(code)
+const [search ,setSearch]= useState("")
+const [searchResults,setSearchResults]= useState([])
+// const [revoke ,revokeFunction] = useState()
 
-// export default function FetchPlaylist(createdPlaylist) {
-//   const { token, setCreatedPlaylist } = useSpotify();
-//   const tracksUri = [
-//     'spotify:track:5RkmFc8hMhckt6HJ80n3Rl', // Add your track URIs here
-//     // Add more track URIs as needed
-//   ];
 
-//   useEffect(() => {
-//     const createPlaylistAndSetState = async () => {
-//       const playlist = await createPlaylist(tracksUri, token);
-//       setCreatedPlaylist(playlist);
-//     };
-//     createPlaylistAndSetState();
-//   }, [token, setCreatedPlaylist]);
+// body.tracks.items[0].album.images
+// body.tracks.items[0].album.images[2].url
+useEffect(()=>{
+    if (!accessToken)return
+    spotifyApi.setAccessToken(accessToken)
+},[accessToken])
+useEffect(()=>{
+    if (!search) return setSearchResults([])
+    if(!accessToken) return
+let cancel = false
+    spotifyApi.searchTracks(search).then(res =>{
+        console.log(res)
+        if(cancel) return
+    setSearchResults (res.body.tracks.items.map(track =>{
+        return{
+            artist : track.artists[0].name,
+            title:track.name,
+            uri:track.uri,
+            albumUrl:track.album.images[0] .url
+        }
+      })
+    )
+    })
 
-//   if (!createdPlaylist) {
-//     return <div>Loading...</div>;
-//   }
+return (()=>cancel = true)
+},[search,accessToken])
 
-//   const playlistId = createdPlaylist.id;
+    return <div style={{margin:"2%"}}>
+          <Input
+      type="Search"
+      label="Search"
+      placeholder="Search for Songs/Albums"
+      value = {search}
+      onChange={e=>setSearch(e.target.value)}
+      description="Rock with the Latest Music."
+      className="max-w-xs"
+    />
+<div style={{
+    overflowY:"auto",
+    display:"flex",
+    flexDirection:"column",
+    flexGrow:"1"
+}}>
+{ searchResults.map(track=>(
 
-//   return (
-//     <iframe
-//       title="Spotify Embed: Recommendation Playlist"
-//       src={`https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=0`}
-//       width="100%"
-//       height="100%"
-//       style={{ minHeight: '360px' }}
-//       // frameBorder="0"
-//       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-//       loading="lazy"
-//     />
-//   );
-// }
+    <SpotifyDashboard  tracks = { track}      key = {track.uri}  accessToken={accessToken} />
+))}
+</div>
+
+
+
+    </div>
+} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

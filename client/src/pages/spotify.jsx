@@ -4,7 +4,7 @@ import {useEffect,useState} from "react";
 import useAuth from "../utils/Api/useAuthSpotify";
 import SpotifyWebApi from "spotify-web-api-node";
 import {Input} from "@nextui-org/react";
-import SpotifyDashboard from "../Components/Navbar/spotify/SpotifyDashboard";
+import SpotifyDashboard from "../Components/spotify/SpotifyDashboard";
 
 
 const spotifyApi = new SpotifyWebApi({
@@ -17,7 +17,7 @@ export default function SpotifyPlayer({code}){
     const accessToken = useAuth(code)
 const [search ,setSearch]= useState("")
 const [searchResults,setSearchResults]= useState([])
-const [revoke ,revokeFunction] = useState()
+// const [revoke ,revokeFunction] = useState()
 
 
 // body.tracks.items[0].album.images
@@ -43,7 +43,7 @@ let cancel = false
       })
     )
     })
-    console.log(searchResults)
+
 return (()=>cancel = true)
 },[search,accessToken])
 
@@ -65,7 +65,7 @@ return (()=>cancel = true)
 }}>
 { searchResults.map(track=>(
 
-    <SpotifyDashboard  tracks = { track}      key = {track.uri} />
+    <SpotifyDashboard  tracks = { track}      key = {track.uri}  accessToken={accessToken} />
 ))}
 </div>
 

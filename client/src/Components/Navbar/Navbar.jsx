@@ -1,5 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
+// import AvatarLogo from "../../assets/logo.png"
 import Logo from "../../assets/logo.png";
+import Login from "./Login/loginForm"
+import SignUp from "./Signup/signup"
+
 import {
   Navbar,
   NavbarBrand,
@@ -9,56 +13,31 @@ import {
   NavbarMenu,
   NavbarItem,
   Link,
-  Button,
+
+  User,
 } from "@nextui-org/react";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
-  Input,
-} from "@nextui-org/react";
-import { GET_MESSAGES } from "../../utils/queries";
+
+
+import Auth from "../../utils/auth";
 import { useQuery } from "@apollo/client";
-import MailFilledIcon from "./MailIcon";
-import { LockIcon } from "./LockIcon";
-// import HandleSignUp from "../HandleSignUp"
+import { GET_USER } from "../../utils/queries";
+
+
+
+
+
+
+// `Log Out as ${userName.username}
 
 export default function App() {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const { data } = useQuery(GET_MESSAGES);
-  const [userSignupData,setUserSignup]= useState({username:"",email:"",password:""})
-console.log(userSignupData)
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { data, loading } = useQuery(GET_USER);
 
-  const userName = data?.user[0] || {};
-
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const inputhandler = (event) => {
-    const { name, value } = event.target;
-    setUserSignup({ ...userSignupData, [name]: value });
-  };
-
- const  handleSignUp = async (e)=>{
-  e.preventDefault()
-
-
-try{
-  const response = await signUp({
-    variables:{...userSignupData}
-  })
-}catch(err){
-  console.log(err)
-}
-
-
-
-
-
-}
-
-  const menuItems = ["Profile", "Dashboard", `Log Out as ${userName.username}`];
+  const userOfficialName = data?.user || {}
+  console.log(userOfficialName)
+  
+  
+  const menuItems = ["Profile", "Dashboard","LogOut"];
 
   return (
     <div>
@@ -83,7 +62,7 @@ try{
               src={Logo}
               alt="Logo"
             />
-            <p className="font-bold text-inherit">Music IO</p>
+            {/* <p className="font-bold text-inherit">Music IO</p> */}
           </NavbarBrand>
         </NavbarContent>
 
@@ -94,22 +73,33 @@ try{
           </NavbarBrand>
         </NavbarContent>
 
-        <NavbarContent justify="end">
-          <NavbarItem className="hidden lg:flex">
-            <Link href="#">Login</Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Button
-              onPress={onOpen}
-              as={Link}
-              color="primary"
-              href="#"
-              variant="flat"
-            >
-              Log In
-            </Button>
-          </NavbarItem>
-        </NavbarContent>
+        {Auth.loggedIn() ? (
+          <>
+            <NavbarContent justify="end">
+              <User
+                isbordered="true"
+                name={userOfficialName.username}
+                description="Product Designer"
+                avatarProps={{
+                  src: "https://i.pravatar.cc/150?u=a04258114e29026702e",
+                }}
+
+
+              />
+            </NavbarContent>
+          </>
+        ) : (
+          <>
+            <NavbarContent justify="end" >
+           
+              <NavbarItem >
+                <SignUp  />
+            
+              </NavbarItem>
+            </NavbarContent>
+            <Login/>
+          </>
+        )}
 
         <NavbarMenu>
           {menuItems.map((item, index) => (
@@ -133,128 +123,8 @@ try{
         </NavbarMenu>
       </Navbar>
 
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center">
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                Sign Up{" "}
-              </ModalHeader>
-              <ModalBody>
-                <Input
-                  autoFocus
-                  endContent={
-                    <MailFilledIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                  }name="username"
-                  value={userSignupData.username}
-                  onChange={inputhandler}
-                  label="Username"
-                  placeholder="Enter your username"
-                  variant="bordered"
-                />
-                <Input
-                  autoFocus
-                  endContent={
-                    <MailFilledIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                  }
-                  name="email"
-                  value={userSignupData.email}
-                  onChange={inputhandler}
-                  label="Email"
-                  placeholder="Enter your email"
-                  variant="bordered"
-                />
-                <Input
-                  endContent={
-                    <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                  }
-                  name="password"
-                  value={userSignupData.password}
-                  onChange={inputhandler}
-                  label="Password"
-                  placeholder="Enter your password"
-                  type="password"
-                  variant="bordered"
-                />
-                <div className="flex py-2 px-1 justify-between">
-                  <Link className=" cursor-pointer">LogIn?</Link>
-                </div>
-              </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="flat" onClick={onClose}>
-                  Close
-                </Button>
-                <Button color="primary" onPress={onClose}>
-                  Sign in
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+    
     </div>
   );
 }
 
-{
-  /* <Checkbox
-classNames={{
-  label: "text-small",
-}}
->
-Remember me
-</Checkbox> */
-}
-
-{
-  /* <Modal
-    isOpen={isOpen}
-    onOpenChange={onOpenChange}
-    placement="top-center"
-  >
-    <ModalContent>
-      {(onClose) => (
-        <>
-          <ModalHeader className="flex flex-col gap-1">Log in</ModalHeader>
-          <ModalBody>
-            <Input
-              autoFocus
-              endContent={
-                <MailFilledIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-              }
-              label="Email"
-              placeholder="Enter your email"
-              variant="bordered"
-        
-            />
-            <Input
-              endContent={
-                <LockIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-              }
-              label="Password"
-              placeholder="Enter your password"
-              type="password"
-              variant="bordered"
-            />
-            <div className="flex py-2 px-1 justify-between cursor-pointer">
-<Link color="Primary"onPress={
-SignUpPage
-}
-
-nsize="sm" >Sign Up?</Link>
-            
-            </div>
-          </ModalBody>
-          <ModalFooter>
-            <Button color="danger" variant="flat" onClick={onClose}>
-              Close
-            </Button>
-            <Button color="primary" onPress={onClose}>
-              Sign in
-            </Button>
-          </ModalFooter>
-        </>
-      )}
-    </ModalContent>
-  </Modal> */
-}

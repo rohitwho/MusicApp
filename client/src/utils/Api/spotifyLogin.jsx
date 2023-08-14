@@ -3,6 +3,7 @@
 
 import React from "react"
 import {Button} from "@nextui-org/react"
+import  AuthUtils from ".././auth"
 
 
 const Auth= "https://accounts.spotify.com/authorize?client_id=bdd9da03ae0b4e068945d124833236e3&response_type=code&redirect_uri=http://localhost:5173&scope=user-read-private user-read-email"
@@ -15,10 +16,21 @@ return (
 
 
     <>
-    
-    <Button>
-        <a href={Auth}>Connect with Music IO?</a>
-    </Button>
+
+
+
+
+
+
+
+
+
+
+<Button>
+    <a href={Auth}>Connect with Music IO?</a>
+</Button>
+
+
     
     
     

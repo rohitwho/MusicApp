@@ -2,27 +2,29 @@ const { AuthenticationError } = require('apollo-server-express');
 const { User } = require('../models');
 const { signToken } = require('../utls/auth');
 
-// user: async (parent, args, context) => {
-//     try {
-//       if (context.user) {
-//         const userData = await User.findById(context.user._id).select('-__v -password');
-//         return userData;
-//       } else {
-//         throw new AuthenticationError('Not logged in');
-//       }
-//     } catch (err) {
-//       console.error(err);
-//       throw new Error('An error occurred while fetching user data');
-//     }
-//   },
+
+
 
 const resolvers = {
     Query: {
-    user:async()=>{
-return User.find({}) 
-        }
-        
-      },
+        user: async (parent, context) => {
+  
+         
+            try {
+              if (!context.user) {
+                const userData = await User.findById('64d825967756ac8930c53489').select('-__v -password');
+                console.log(userData)
+                return userData;
+              } else {
+              
+                throw new AuthenticationError('Not logged innnn');
+              }
+            } catch (err) {
+              console.log(err);
+            //   throw new Error('An error occurred while fetching user data');
+            }
+          },
+        },
     Mutation: {
 
         signup: async (parent, args) => {
@@ -65,6 +67,25 @@ return User.find({})
                 return addMessage;
             } catch (err) {
                 console.error(err);
+            }
+        },
+        addFriend:async(parent,{_id,friendsId})=>{
+
+
+
+            try{
+                const addFriends =  await User.findByIdAndUpdate(
+                    _id,
+                    { $push: { friends: friendsId } },
+ 
+                  );
+                  return addFriends;
+
+
+
+
+            }catch(err){
+                console.log(err)
             }
         },
 

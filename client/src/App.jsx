@@ -3,6 +3,7 @@
 // import FetchPlaylist from "./pages/spotify"
 import Navbar from "./Components/Navbar/Navbar"
 import Chatbox from "./pages/chatbox"
+import Footer from "./Components/Footer/footer"
 import SpotifyPlayer from "./pages/spotify";
 
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
@@ -29,13 +30,14 @@ function App() {
 
       <main style={{
         display:"flex",
+        height:"100vh",
         justifyContent:"space-around"
       }}>
         <SpotifyPlayer code = {code}/>
         <Chatbox/>
       </main>
 
-
+<Footer/>
     </>
     </ApolloProvider>
   )

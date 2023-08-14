@@ -1,15 +1,15 @@
-const { Schema, model } = require('mongoose');
-const comments = require('./comments')
+const { Schema, model } = require("mongoose");
+const comments = require("./comments");
 
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcrypt");
 
-const messageSchema = require("./message")
+const messageSchema = require("./message");
 
 const userSchema = new Schema({
   email: {
     type: String,
     trim: true,
-    match: [/.+@.+\..+/, 'Must use a valid email address'],
+    match: [/.+@.+\..+/, "Must use a valid email address"],
   },
   username: {
     type: String,
@@ -20,30 +20,27 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+
   createdAt: {
     type: Date,
     default: Date.now,
   },
-  comments: [
-    comments
+  comments: [comments],
+
+  friends: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
   ],
-
-  friends: [{
-    type: Schema.Types.ObjectId,
-    ref: 'User'
-  }],
-                                messages:[
-      messageSchema
-    ]
-
+  messages: [messageSchema],
 });
-userSchema.virtual('friendCount').get(function () {
-  return this.friends.length
-
+userSchema.virtual("friendCount").get(function () {
+  return this.friends.length;
 });
 
-userSchema.pre('save', async function (next) {
-  if (this.isNew || this.isModified('password')) {
+userSchema.pre("save", async function (next) {
+  if (this.isNew || this.isModified("password")) {
     const saltRounds = 10;
     this.password = await bcrypt.hash(this.password, saltRounds);
   }
@@ -51,12 +48,10 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-
 userSchema.methods.isCorrectPassword = async function (password) {
   return bcrypt.compare(password, this.password);
 };
 
-
-const User = model('User', userSchema);
+const User = model("User", userSchema);
 
 module.exports = User;

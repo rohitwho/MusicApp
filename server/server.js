@@ -1,7 +1,7 @@
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 const path = require('path');
-const { authMiddleware } = require("./utls/auth.js")
+const {authMiddleware}  = require("./utls/auth.js")
 const { typeDefs, resolvers } = require('./schemas');
 const db = require('./config/connection');
 var bodyParser = require('body-parser')
@@ -13,11 +13,21 @@ const PORT = process.env.PORT || 3001;
 
 const app = express();
 
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json())
+app.use(express.json());
 app.use(cors())
 
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: authMiddleware
+  
+});
 
+const startApolloServer = async () => {
+  await server.start();
+  server.applyMiddleware({ app });
 
 app.post ("/refresh" ,(req,res)=>{
 const refreshToken = req.body.refreshToken
@@ -83,36 +93,7 @@ spotifyApi.authorizationCodeGrant(code).then(data =>{
 
 
 
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  context: authMiddleware
-});
-// app.post("/spotify",(req,res)=>{
-// const client_id="bdd9da03ae0b4e068945d124833236e3";
-// const client_secret = "c8134b1d8304455381ac20e549583a77"
 
-// const code = req.query.code
-// const authOptions = {
-//   url: 'https://accounts.spotify.com/api/token',
-//   form: {
-//     code: code,
-//     redirect_uri: "http://localhost:3001",
-//     grant_type: 'authorization_code'
-//   },
-//   headers: {
-//     'Authorization': 'Basic ' + (new Buffer.from(client_id + ':' + client_secret).toString('base64'))
-//   },
-//   json: true}
-
-// res.status(200).json()
-
-
-
-
-// })
-
-// app.use(express.json());
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')));
@@ -123,9 +104,6 @@ app.get('/', (req, res) => {
 });
 
 // Create a new instance of an Apollo server with the GraphQL schema
-const startApolloServer = async (typeDefs, resolvers) => {
-  await server.start();
-  server.applyMiddleware({ app });
 
   db.once('open', () => {
     app.listen(PORT, () => {
@@ -136,4 +114,4 @@ const startApolloServer = async (typeDefs, resolvers) => {
 };
 
 // Call the async function to start the server
-startApolloServer(typeDefs, resolvers);
+startApolloServer();

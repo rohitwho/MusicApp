@@ -11,6 +11,11 @@ const userSchema = new Schema({
     trim: true,
     match: [/.+@.+\..+/, "Must use a valid email address"],
   },
+
+  description: {
+    type: String,
+  },
+  
   username: {
     type: String,
     required: true,

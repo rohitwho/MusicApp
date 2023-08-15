@@ -104,7 +104,21 @@ const resolvers = {
         }catch(err){
             console.error(err);
          }
-     }
+     },
+
+        addDescription: async (parent, { ID, userDescription }) => {
+            try {
+                const newDescription = await User.findByIdAndUpdate(
+                    {_id: ID },
+                    { $push: {description: userDescription } },
+                    { new: true }
+                )
+
+                return newDescription
+            } catch(err) {
+                console.log(err)
+            }
+        }
   }
     }
     

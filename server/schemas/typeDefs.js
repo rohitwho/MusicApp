@@ -14,6 +14,7 @@ const typeDefs = gql`
     email: String
     username: String
     password: String
+    description: String
     friends: [User]
 
     comments: [userComments]
@@ -35,6 +36,8 @@ const typeDefs = gql`
     _id: ID
   }
 
+
+
   type Query {
     user: User !
   }
@@ -46,6 +49,7 @@ const typeDefs = gql`
     addMessage(input: Text): User
     removeUserComment(commentId: ID): User
     addFriend(_id:ID,friendsId : ID): User
+    addDescription(_id:ID, userDescription: String): User
   }
 `;
 
@@ -55,4 +59,7 @@ module.exports = typeDefs;
 //     userid:ID
 //     commentText:String
 //     commentAuthor:String
+// }
+// input descriptionInput{
+//   description: String
 // }

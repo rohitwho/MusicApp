@@ -32,6 +32,7 @@ query User {
   user {
     username
     email
+    description
     _id
     comments {
       userid

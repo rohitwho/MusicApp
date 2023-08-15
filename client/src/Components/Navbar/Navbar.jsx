@@ -22,7 +22,7 @@ import Auth from "../../utils/auth";
 import { useQuery } from "@apollo/client";
 import { GET_USER } from "../../utils/queries";
 
-
+import Profile from './profile';
 
 
 
@@ -51,7 +51,6 @@ export default function App() {
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           />
         </NavbarContent>
-
         <NavbarContent className="sm:hidden pr-3" justify="center">
           <NavbarBrand>
             <img
@@ -102,8 +101,10 @@ export default function App() {
         )}
 
         <NavbarMenu>
+          
           {menuItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
+              <Profile />
               <Link
                 className="w-full"
                 color={

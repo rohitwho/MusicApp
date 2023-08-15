@@ -1,7 +1,7 @@
 
 import React, { useState } from "react"
 import SpotifyPlayer from 'react-spotify-web-playback';
-import PopOver from '../Popover /popover'
+import PopOver from '../Popover/popover'
 import { POST_COMMENT } from "../../utils/mutation";
 import Auth from "../../utils/auth";
 import { GET_USER } from "../../utils/queries";

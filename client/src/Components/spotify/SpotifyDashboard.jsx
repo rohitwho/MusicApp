@@ -119,14 +119,14 @@ const HandleComment= async ()=>{
                                         uris={["spotify:track:6DCZcSspjsKoFjzjrWoCdn"]}
                                     />;
                                     <PopOver />
-                                    <li>this i s acomment</li>
-                                    {/* {allComments?.map(comment=>{
+                               
+                                    {allComments?.map(comment=>{
                                         comment.commentText
                                     })}
                                     <ul>
                                         <li>THis is </li>
-                                        <li>{commenttext}</li>
-                                    </ul> */}
+                                        <li>{allComments.commenttext}</li>
+                                    </ul>
                                 </ModalBody>
                                 <div style={{
                                     display: "inline-flex",

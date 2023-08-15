@@ -1,9 +1,15 @@
 const { AuthenticationError } = require("apollo-server-express");
 const { User } = require("../models");
 const { signToken } = require("../utls/auth");
+const { PubSub } = require('apollo-server');
 
 const resolvers = {
   Query: {
+    Subscription: {
+      messageAdded: {
+        subscribe: ( addMessage,{pubsub} ) => pubsub.asyncIterator([MESSAGE_ADDED]),
+      }
+    },
     user: async (parent, context) => {
       try {
         if (!context.user) {
@@ -49,6 +55,8 @@ const resolvers = {
       return await User.findOneAndDelete(args);
     },
 
+    
+
     addMessage: async (parent, { input }) => {
       try {
         const addMessage = await User.findByIdAndUpdate(
@@ -90,7 +98,7 @@ const resolvers = {
       }
     },
     // addDescription
-    addDescription: async (parent, { parent }) => {
+    addDescription: async (parent, { input }) => {
         try {
           const NewDescription = await User.findByIdAndUpdate(
             { _id: input.userId },
@@ -102,7 +110,7 @@ const resolvers = {
             console.error(err);
             }
         },
-        
+      },
 };
 
 

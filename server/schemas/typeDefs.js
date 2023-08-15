@@ -25,6 +25,11 @@ const typeDefs = gql`
     commentAuthor: String
   }
 
+
+  type Subscription {
+    messageAdded (input: Text): User
+  }
+
   type Auth {
     token: ID
     user: User

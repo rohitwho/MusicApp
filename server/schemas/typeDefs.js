@@ -10,10 +10,10 @@ const typeDefs = gql`
   }
 
   type User {
-    _id: ID
-    email: String
-    username: String
-    password: String
+    _id: ID!
+    email: String!
+    username: String!
+    description: String
     friends: [User]
 
     comments: [userComments]
@@ -26,17 +26,19 @@ const typeDefs = gql`
   }
 
   type Auth {
-    token: ID
+    token: ID!
     user: User
   }
   input Text {
     messageContent: String
-    userId: ID!
-    _id: ID
+
   }
+
+
 
   type Query {
     user: User !
+    
   }
   
   type Mutation {
@@ -47,6 +49,7 @@ const typeDefs = gql`
     addMessage(input: Text): User
     removeUserComment(commentId: ID): User
     addFriend(_id:ID,friendsId : ID): User
+    addDescription( userdescription: String): User
   }
 `;
 
@@ -56,4 +59,7 @@ module.exports = typeDefs;
 //     userid:ID
 //     commentText:String
 //     commentAuthor:String
+// }
+// input descriptionInput{
+//   description: String
 // }

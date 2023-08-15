@@ -27,15 +27,15 @@ import { GET_USER } from "../../utils/queries";
 
 
 
-// `Log Out as ${userName.username}
+
 
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { data, loading } = useQuery(GET_USER);
 
+
   const userOfficialName = data?.user || {}
-  console.log(userOfficialName)
-  
+
   
   const menuItems = ["Profile", "Dashboard","LogOut"];
 
@@ -79,7 +79,7 @@ export default function App() {
               <User
                 isbordered="true"
                 name={userOfficialName.username}
-                description="Product Designer"
+                description={userOfficialName.description}
                 avatarProps={{
                   src: "https://i.pravatar.cc/150?u=a04258114e29026702e",
                 }}
@@ -104,7 +104,7 @@ export default function App() {
         <NavbarMenu>
           {menuItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
-              <Link
+              <Link onPress={Auth.logout}
                 className="w-full"
                 color={
                   index === 2

@@ -14,14 +14,14 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 
 app.use(express.urlencoded({ extended: false }));
-app.use(bodyParser.json())
+// app.use(bodyParser.json())
 app.use(express.json());
 app.use(cors())
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: authMiddleware
+  context: authMiddleware,
   
 });
 

@@ -13,7 +13,7 @@ import {
   Input,
   Link,
 } from "@nextui-org/react";
-import { GET_USER } from "../../../utils/queries";
+// import { GET_USER } from "../../../utils/queries";
 import { useQuery, useMutation } from "@apollo/client";
 import MailFilledIcon from "../formIcons/MailIcon";
 import { LockIcon } from "../formIcons/LockIcon";
@@ -30,7 +30,7 @@ export default function SignUpForm (){
 
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const { data, loading } = useQuery(GET_USER);
+  // const { data, loading } = useQuery(GET_USER);
   const [signUp, { error }] = useMutation(SIGN_UP);
   const [userSignupData, setUserSignup] = useState({
     username: "",
@@ -38,8 +38,8 @@ export default function SignUpForm (){
     password: "",
   });
 
-  const userName = data?.user || {};
-  console.log(userName);
+  // const userName = data?.user || {};
+  // console.log(userName);
 
   const inputhandler = (event) => {
     const { name, value } = event.target;

@@ -7,24 +7,22 @@ const { signToken } = require('../utls/auth');
 
 const resolvers = {
     Query: {
-        user: async (parent, context) => {
-  
-         
-            try {
-              if (!context.user) {
-                const userData = await User.findById('64d825967756ac8930c53489').select('-__v -password');
-                console.log(userData)
-                return userData;
-              } else {
-              
-                throw new AuthenticationError('Not logged innnn');
-              }
-            } catch (err) {
-              console.log(err);
-            //   throw new Error('An error occurred while fetching user data');
+        user: async (parent, args, context) => {
+          try {
+            if (context.user) {
+                console.log(context.user)
+              const userData = await User.findById(context.user._id)
+              return userData;
+            } else {
+              throw new AuthenticationError('Not logged in');
             }
-          },
+          } catch (err) {
+            console.log(err);
+            throw new Error('An error occurred while fetching user data');
+          }
         },
+      },
+    
     Mutation: {
 
         signup: async (parent, args) => {
@@ -57,10 +55,10 @@ const resolvers = {
         },
 
 
-        addMessage: async (parent, { input }) => {
+        addMessage: async (parent, { input },context) => {
             try {
                 const addMessage = await User.findByIdAndUpdate(
-                  {_id:  input.userId},
+                  {_id:  context.user._id},
                     { $push: { messages: input } },
                     { new: true }
                 );
@@ -104,10 +102,28 @@ const resolvers = {
         }catch(err){
             console.error(err);
          }
-     }
-  },
+     },
 
-}
+        addDescription: async (parent, {  userdescription },context) => {
+
+            try {
+                // console.log(description)
+                // console.log(ID)
+                const newDescription = await User.findByIdAndUpdate(
+                    { _id:context.user._id},
+           
+                    { $set: {description : userdescription } },
+                    { new: true }
+                )
+
+                return newDescription
+            } catch(err) {
+                console.log(err)
+            }
+        }
+  }
+    }
+
     
 
        

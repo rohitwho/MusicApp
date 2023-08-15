@@ -10,6 +10,8 @@ import SpotifyInit from "../utils/Api/spotifyLogin"
 
 
 
+
+
 export default function Chatbox() {
   const [inputValue, setInputValue] = useState("");
   const { loading: userLoading, error: userError, data: userPersonalData } = useQuery(GET_USER);

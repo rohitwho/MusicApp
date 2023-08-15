@@ -10,16 +10,14 @@ export const GET_MESSAGES = gql`
 query Query {
     user {
       username
+      email
+      _id
       messages {
         messageContent
         createdAt
       }
-      email
-      comments {
-        commentText
-        commentAuthor
-      }
-      _id
+ 
+     
     }
   }
 
@@ -28,39 +26,45 @@ query Query {
 
 `
 export  const GET_USER = gql`
+
+
+
+
 query User {
   user {
     username
     email
     description
     _id
-    comments {
-      userid
-      commentText
-      commentAuthor
-    }
-    friends {
-      username
-      messages {
-        messageContent
-        createdAt
-        _id
-      }
-    
-      email
-      comments {
-        userid
-        commentText
-        commentAuthor
-      }
-      _id
-    }
     messages {
       messageContent
       createdAt
       _id
     }
+    comments {
+      commentAuthor
+      commentText
+      userid
+    }
+    friends {
+      username
+      email
+      _id
+      comments {
+        commentText
+      }
+      messages {
+        messageContent
+      }
+    }
   }
 }
+
+
 `
+
+
+
+
+
 

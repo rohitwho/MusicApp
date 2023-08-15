@@ -13,12 +13,13 @@ import SpotifyInit from "../utils/Api/spotifyLogin"
 export default function Chatbox() {
   const [inputValue, setInputValue] = useState("");
   const { loading: userLoading, error: userError, data: userPersonalData } = useQuery(GET_USER);
-  const { loading: messagesLoading, error: messagesError, data: messagesData } = useQuery(GET_MESSAGES);
-  
+  // const { loading: messagesLoading, error: messagesError, data: messagesData } = useQuery(GET_MESSAGES);
+  // console.log(messagesData?.data|| {})
   const [sentMessage] = useMutation(SEND_MESSAGE);
 
-  const userData = userPersonalData?.user || {};
-  // const friendUsernames = userData.friends?.map(friend => friend._id);
+  const userData = userPersonalData?.user || {}
+  const friendUsernames = userData.friends?.map(friend => friend._id);
+  console.log(friendUsernames)
   console.log(userData)
 
 
@@ -29,7 +30,7 @@ export default function Chatbox() {
 
 
     const saveMessage ={
-      userId:userData._id,
+      // userId:userData._id,
       messageContent:inputValue
     }
     try {
@@ -47,23 +48,16 @@ export default function Chatbox() {
   const handlechange = (e) => {
     setInputValue(e.target.value);
   };
-
+if(userLoading){
+  <h1>Loading....</h1>
+}
   return (
  <main style = {{
   display:"flex",
-  width:"100%"
+  width:"60%"
 
  }}>
-   <div style={{
-    width:"50%",
-
-   }}>
-     <SpotifyInit style={{
-      justifyContent:"center",
-      display:"flex",
-      alignItems:"center"
-     }} />
-   </div>
+ 
       <section style={{
         display:"flex",
         justifyContent:"center",
@@ -71,7 +65,7 @@ export default function Chatbox() {
         margin:"2%",
         border:"2px solid white",
    
-        // backgroundColor:"whitesmoke"
+     
       }}>
         <div>
         </div>
@@ -114,7 +108,7 @@ export default function Chatbox() {
     }}><Avatar  isBordered radius="lg" name="RN" /> <Link >Rohit Nayyar
     </Link></li>
     </ul></div>
-    {/* { friendUsernames} */}
+    { friendUsernames}
         <div
           className="Primary-Chat"
           style={{

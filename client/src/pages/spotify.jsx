@@ -5,6 +5,9 @@ import useAuth from "../utils/Api/useAuthSpotify";
 import SpotifyWebApi from "spotify-web-api-node";
 import {Input} from "@nextui-org/react";
 import SpotifyDashboard from "../Components/spotify/SpotifyDashboard";
+import SpotifyInit from "../utils/Api/spotifyLogin"
+import Auth from "../utils/auth"
+import Player from "../Components/spotify/Player"
 
 
 const spotifyApi = new SpotifyWebApi({
@@ -17,11 +20,19 @@ export default function SpotifyPlayer({code}){
     const accessToken = useAuth(code)
 const [search ,setSearch]= useState("")
 const [searchResults,setSearchResults]= useState([])
-// const [revoke ,revokeFunction] = useState()
+const [playingTrack,setPlayingTrack ] = useState()
 
 
-// body.tracks.items[0].album.images
-// body.tracks.items[0].album.images[2].url
+
+
+
+
+
+
+function chooseTrack(track){
+    setPlayingTrack(track)
+    setSearch("")
+}
 useEffect(()=>{
     if (!accessToken)return
     spotifyApi.setAccessToken(accessToken)
@@ -44,19 +55,31 @@ let cancel = false
     )
     })
 
+
 return (()=>cancel = true)
 },[search,accessToken])
 
     return <div style={{margin:"2%"}}>
-          <Input
-      type="Search"
-      label="Search"
-      placeholder="Search for Songs/Albums"
-      value = {search}
-      onChange={e=>setSearch(e.target.value)}
-      description="Rock with the Latest Music."
-      className="max-w-xs"
-    />
+
+{accessToken && Auth.loggedIn()?(
+
+
+
+<Input
+type="Search"
+label="Search"
+placeholder="Search for Songs/Albums"
+value = {search}
+onChange={e=>setSearch(e.target.value)}
+description="Rock with the Latest Music."
+className="max-w-xs"
+/>
+):(
+    <SpotifyInit/>
+  
+)}
+
+
 <div style={{
     overflowY:"auto",
     display:"flex",
@@ -65,11 +88,11 @@ return (()=>cancel = true)
 }}>
 { searchResults.map(track=>(
 
-    <SpotifyDashboard  tracks = { track}      key = {track.uri}  accessToken={accessToken} />
+    <SpotifyDashboard  tracks = { track}      key = {track.uri}  chooseTrack={chooseTrack} />
 ))}
 </div>
 
-
+<div><Player accessToken={accessToken} trackUri = {playingTrack?.uri} /></div>
 
     </div>
 } 

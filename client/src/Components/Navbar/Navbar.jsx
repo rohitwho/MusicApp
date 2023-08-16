@@ -35,6 +35,7 @@ export default function App() {
 
 
   const userOfficialName = data?.user || {}
+  console.log(userOfficialName)
 
   
   const menuItems = ["Profile", "Dashboard","LogOut"];

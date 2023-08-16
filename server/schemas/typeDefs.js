@@ -40,6 +40,9 @@ const typeDefs = gql`
     user: User !
     
   }
+  type Subscription{
+    messages: [UserMessages]
+  }
   
   type Mutation {
     signup(username: String!, email: String!, password: String!): Auth

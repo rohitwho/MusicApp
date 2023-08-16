@@ -11,7 +11,10 @@ export default function Player ({accessToken,trackUri}){
 if (!accessToken)return null
     return(
 
-<div>
+<div style ={{
+ width:'100%',
+  margin:"2%"
+}}>
   {Auth.loggedIn()?(
   
   

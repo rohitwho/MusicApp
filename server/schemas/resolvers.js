@@ -1,6 +1,9 @@
 const { AuthenticationError } = require('apollo-server-express');
 const { User } = require('../models');
 const { signToken } = require('../utls/auth');
+const { PubSub } = require('graphql-subscriptions');
+const pubsub = new PubSub()
+
 
 
 
@@ -8,10 +11,10 @@ const { signToken } = require('../utls/auth');
 const resolvers = {
     Query: {
         user: async (parent, args, context) => {
+
           try {
-            if (context.user) {
-                console.log(context.user)
-              const userData = await User.findById(context.user._id)
+            if (!context.user) {
+              const userData = await User.findById("64daeff1edf1487793b355a2")
               return userData;
             } else {
               throw new AuthenticationError('Not logged in');
@@ -22,7 +25,12 @@ const resolvers = {
           }
         },
       },
-    
+    Subscription:{
+        messages:{
+       subscribe:()=>pubsub.asyncIterator('MESSAGE_RECEIVED')
+            }
+        
+    },
     Mutation: {
 
         signup: async (parent, args) => {
@@ -55,25 +63,28 @@ const resolvers = {
         },
 
 
-        addMessage: async (parent, { input },context) => {
+        addMessage: async (parent, { input},context) => {
             try {
                 const addMessage = await User.findByIdAndUpdate(
-                  {_id:  context.user._id},
+                  {_id: "64daeff1edf1487793b355a2"},
                     { $push: { messages: input } },
+                
                     { new: true }
                 );
+                pubsub.publish('MESSAGE_RECEIVED', { messages: addMessage.messages });
+            
                 return addMessage;
             } catch (err) {
                 console.error(err);
             }
         },
-        addFriend:async(parent,{_id,friendsId})=>{
+        addFriend:async(parent,{_id,friendsId},context)=>{
 
 
 
             try{
                 const addFriends =  await User.findByIdAndUpdate(
-                    _id,
+                    {_id:context.user._id},
                     { $push: { friends: friendsId } },
  
                   );

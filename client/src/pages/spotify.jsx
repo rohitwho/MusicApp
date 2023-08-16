@@ -59,7 +59,9 @@ let cancel = false
 return (()=>cancel = true)
 },[search,accessToken])
 
-    return <div style={{margin:"2%"}}>
+    return <div style={{margin:"2%",
+    height:"80vh",
+    overflowY:"scroll"}}>
 
 {accessToken && Auth.loggedIn()?(
 

@@ -57,28 +57,37 @@ const resolvers = {
 
     
 
-    addMessage: async (parent, { input }) => {
-      try {
-        const addMessage = await User.findByIdAndUpdate(
-          { _id: input.userId },
-          { $push: { messages: input } },
-          { new: true }
-        );
-        return addMessage;
-      } catch (err) {
-        console.error(err);
-      }
-    },
-    addFriend: async (parent, { _id, friendsId }) => {
-      try {
-        const addFriends = await User.findByIdAndUpdate(_id, {
-          $push: { friends: friendsId },
-        });
-        return addFriends;
-      } catch (err) {
-        console.log(err);
-      }
-    },
+        addMessage: async (parent, { input },context) => {
+            try {
+                const addMessage = await User.findByIdAndUpdate(
+                  {_id:  context.user._id},
+                    { $push: { messages: input } },
+                    { new: true }
+                );
+                return addMessage;
+            } catch (err) {
+                console.error(err);
+            }
+        },
+        addFriend:async(parent,{_id,friendsId})=>{
+
+
+
+            try{
+                const addFriends =  await User.findByIdAndUpdate(
+                    _id,
+                    { $push: { friends: friendsId } },
+ 
+                  );
+                  return addFriends;
+
+
+
+
+            }catch(err){
+                console.log(err)
+            }
+        },
 
     addUserComment: async (
       parent,
@@ -108,11 +117,36 @@ const resolvers = {
           return addDescription;
         } catch (err) {
             console.error(err);
+         }
+     },
+
+        addDescription: async (parent, {  userdescription },context) => {
+
+            try {
+                // console.log(description)
+                // console.log(ID)
+                const newDescription = await User.findByIdAndUpdate(
+                    { _id:context.user._id},
+           
+                    { $set: {description : userdescription } },
+                    { new: true }
+                )
+
+                return newDescription
+            } catch(err) {
+                console.log(err)
             }
-        },
-      },
-};
+        }
+  }
+    }
+
+    
+
+       
 
 
 
-module.exports = resolvers;
+
+
+
+module.exports = resolvers

@@ -57,3 +57,13 @@ mutation Mutation($userid: ID, $commentText: String, $commentAuthor: String) {
 }
 
 `
+export const UPDATE_USER_PROFILE = gql`
+mutation updateUserProfile($input: updateProfile!) {
+  updateUserProfile(input: $input) {
+    _id
+    email
+    username
+    description
+  }
+}
+  `

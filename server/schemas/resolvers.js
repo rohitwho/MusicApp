@@ -8,21 +8,21 @@ const { signToken } = require('../utls/auth');
 const resolvers = {
     Query: {
         user: async (parent, args, context) => {
-          try {
-            if (context.user) {
-                console.log(context.user)
-              const userData = await User.findById(context.user._id)
-              return userData;
-            } else {
-              throw new AuthenticationError('Not logged in');
+            try {
+                if (context.user) {
+                    console.log(context.user)
+                    const userData = await User.findById(context.user._id)
+                    return userData;
+                } else {
+                    throw new AuthenticationError('Not logged in');
+                }
+            } catch (err) {
+                console.log(err);
+                throw new Error('An error occurred while fetching user data');
             }
-          } catch (err) {
-            console.log(err);
-            throw new Error('An error occurred while fetching user data');
-          }
         },
-      },
-    
+    },
+
     Mutation: {
 
         signup: async (parent, args) => {
@@ -55,10 +55,10 @@ const resolvers = {
         },
 
 
-        addMessage: async (parent, { input },context) => {
+        addMessage: async (parent, { input }, context) => {
             try {
                 const addMessage = await User.findByIdAndUpdate(
-                  {_id:  context.user._id},
+                    { _id: context.user._id },
                     { $push: { messages: input } },
                     { new: true }
                 );
@@ -67,66 +67,67 @@ const resolvers = {
                 console.error(err);
             }
         },
-        addFriend:async(parent,{_id,friendsId})=>{
+        addFriend: async (parent, { _id, friendsId }) => {
 
 
 
-            try{
-                const addFriends =  await User.findByIdAndUpdate(
+            try {
+                const addFriends = await User.findByIdAndUpdate(
                     _id,
                     { $push: { friends: friendsId } },
- 
-                  );
-                  return addFriends;
+
+                );
+                return addFriends;
 
 
 
 
-            }catch(err){
+            } catch (err) {
                 console.log(err)
             }
         },
 
 
 
-    
-        addUserComment: async (parent, { userid,commentText,commentAuthor}, context) => {
-            try {
-                      const comments = await User.findOneAndUpdate(
-                { _id: userid },
-            { $push: {comments:{commentText,commentAuthor} }},
-            { new: true }
-            )
-         
-            return comments
-        }catch(err){
-            console.error(err);
-         }
-     },
 
-        addDescription: async (parent, {  userdescription },context) => {
-
+        addUserComment: async (parent, { userid, commentText, commentAuthor }, context) => {
             try {
-                // console.log(description)
-                // console.log(ID)
-                const newDescription = await User.findByIdAndUpdate(
-                    { _id:context.user._id},
-           
-                    { $set: {description : userdescription } },
+                const comments = await User.findOneAndUpdate(
+                    { _id: userid },
+                    { $push: { comments: { commentText, commentAuthor } } },
                     { new: true }
                 )
 
-                return newDescription
-            } catch(err) {
-                console.log(err)
+                return comments
+            } catch (err) {
+                console.error(err);
             }
+        },
+
+        updateUserProfile: async (parent, { input }, context) => {
+            if (context.user) {
+                // console.log(description)
+                // console.log(ID)
+                const newUserProfile = await User.findByIdAndUpdate(
+                    { _id: context.user._id },
+                    { $set: { username: input.username, email: input.email, description: input.description }, },
+                    { new: true }
+                )
+
+                return newUserProfile;
+
+            } else{
+                console.log("Something went wrong")
+            }
+
+
         }
-  }
     }
+}
 
-    
 
-       
+
+
 
 
 

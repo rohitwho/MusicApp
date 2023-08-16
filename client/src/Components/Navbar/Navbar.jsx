@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // import AvatarLogo from "../../assets/logo.png"
 import Logo from "../../assets/logo.png";
 import Login from "./Login/loginForm"
@@ -33,8 +33,15 @@ export default function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { data, loading } = useQuery(GET_USER);
 
+  const [saved, setSaved]=  useState(false)
 
   const userOfficialName = data?.user || {}
+
+  useEffect(()=>{
+    setTimeout(()=>{
+      setSaved(false)
+    }, 3000)
+  }, [saved])
 
   
   const menuItems = ["Profile", "Dashboard","LogOut"];
@@ -82,9 +89,9 @@ export default function App() {
                 avatarProps={{
                   src: "https://i.pravatar.cc/150?u=a04258114e29026702e",
                 }}
-
-
               />
+            <Profile setSaved={setSaved} />
+            {saved === true ? <p style={{color: 'green'}}>Your ProfileHas Been Updated!</p> : ''}
             </NavbarContent>
           </>
         ) : (
@@ -101,10 +108,12 @@ export default function App() {
         )}
 
         <NavbarMenu>
-          
+          {/* <NavbarMenuItem>
+           
+          </NavbarMenuItem> */}
           {menuItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
-              <Profile />
+              
               <Link
                 className="w-full"
                 color={
@@ -119,6 +128,7 @@ export default function App() {
               >
                 {item}
               </Link>
+              
             </NavbarMenuItem>
           ))}
         </NavbarMenu>

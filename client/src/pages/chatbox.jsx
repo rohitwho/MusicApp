@@ -109,10 +109,10 @@ export default function Chatbox() {
       width:"100%",
       color:"white",
       margin :"1rem"
-    }}><Avatar  isBordered radius="lg" name="RN" /> <Link > { friendUsernames._id}
+    }}><Avatar  isBordered radius="lg" name="RN" /> <Link > 
     </Link></li>
     </ul></div>
-    { friendUsernames._id}
+
         <div
           className="Primary-Chat"
           style={{

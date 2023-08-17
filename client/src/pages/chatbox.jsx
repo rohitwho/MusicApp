@@ -6,6 +6,7 @@ import { Input } from "@nextui-org/react";
 import { Button } from "@nextui-org/react";
 import { Avatar,Link } from "@nextui-org/react";
 import SpotifyInit from "../utils/Api/spotifyLogin"
+import Auth from "../utils/auth"
 // import SpotifyPlayer from "./spotify"
 
 
@@ -119,12 +120,14 @@ export default function Chatbox() {
             display:"flex",
             maxHeight:"80vh",
             flexDirection:"column",
-            // justifyContent:" flex-end",
+
             alignItems:"stretch",
             width:"70%",
             overflowY:"scroll"
        
           }}>
+
+
    
           {userData.messages?.map(
             ({ user: messageUser, messageContent }, index) => (
@@ -133,7 +136,7 @@ export default function Chatbox() {
                 style={{
                   position:"sticky",
                   display: "flex",
-                  // overflowY:"scroll",
+
                   justifyContent:
                     userData.username === messageUser ? "flex-start" : "flex-end",
                   paddingBottom: "1em",
@@ -141,7 +144,7 @@ export default function Chatbox() {
               >
                 <div
                   style={{
-                    // overflowY:"scroll",
+          
                     background:
                       userData.username === messageUser ? "green" : "#027aff",
                     color: userData.username === messageUser ? "black" : "white",
@@ -163,44 +166,56 @@ export default function Chatbox() {
               </div>
             )
           )}
+{Auth.loggedIn()?(
+  <div
+  style={{
+    display:"inline-flex",
 
-<div
-              style={{
-                display:"inline-flex",
-            
-                marginInline: "1rem",
-                width: "100%",
-                alignItems: "center",
-                color:"whitesmoke",
-                padding:"2%"
-              }}
-            >
-              <Input
-                isClearable
-                type="text"
-                label="Message"
-                variant="bordered"
-                value={inputValue}
-                onChange={handlechange}
-                onClear={() => console.log("input cleared")}
-              />
-            <Button
-              onClick={handleText}
-              style={{
-                marginInline: "1rem",
-                alignItems: "center",
-                display: "flex",
-                justifyContent: "center",
-              }}
-              color="primary"
-              variant="ghost"
-            >
-              Send
-            </Button>
-            </div>
-      
-        </div>
-   
+    marginInline: "1rem",
+    width: "100%",
+    alignItems: "center",
+    color:"whitesmoke",
+    padding:"2%"
+  }}
+>
+  <Input
+    isClearable
+    type="text"
+    label="Message"
+    variant="bordered"
+    value={inputValue}
+    onChange={handlechange}
+    onClear={() => console.log("input cleared")}
+  />
+<Button
+  onClick={handleText}
+  style={{
+    marginInline: "1rem",
+    alignItems: "center",
+    display: "flex",
+    justifyContent: "center",
+  }}
+  color="primary"
+  variant="ghost"
+>
+  Send
+</Button>
+</div>
+
+
+
+
+):(
+  <h1 style = {{
+    display:"flex",
+    justifyContent:"center",
+    alignItems:"center",
+    border:"1px solid white",
+    fontSize:"1.4rem"
+
+  }}>Please Login with your Credentials!</h1>
+)}
+         </div>
       </section>
  </main>
   );

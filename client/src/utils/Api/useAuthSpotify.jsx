@@ -14,7 +14,7 @@ export default function useAuth(code){
 
 useEffect(()=>{
 
-axios.post("http://localhost:3001/login",{
+axios.post("https://musicapp-g7-8464089b4e0f.herokuapp.com/login",{
     code
 })
 .then(res => {
@@ -39,7 +39,7 @@ useEffect(()=>{
 
 
          
-        axios.post("http://localhost:3001/refresh",{
+        axios.post("https://musicapp-g7-8464089b4e0f.herokuapp.com/refresh",{
             refreshToken
         })
         .then(res => {

@@ -6,7 +6,7 @@ import {Button} from "@nextui-org/react"
 import  AuthUtils from ".././auth"
 
 
-const Auth= "https://accounts.spotify.com/authorize?client_id=bdd9da03ae0b4e068945d124833236e3&response_type=code&redirect_uri=http://localhost:5173&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state"
+const Auth= "https://accounts.spotify.com/authorize?client_id=bdd9da03ae0b4e068945d124833236e3&response_type=code&redirect_uri=https://musicapp-g7-8464089b4e0f.herokuapp.com&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state"
 
 
 export default function spotifyInit(){

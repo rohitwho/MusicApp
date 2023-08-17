@@ -9,9 +9,7 @@ const db = require("./config/connection");
 var bodyParser = require("body-parser");
 
 const { createServer } = require("http");
-const {
-  ApolloServerPluginDrainHttpServer,
-} = require("@apollo/server/plugin/drainHttpServer");
+const { ApolloServerPluginDrainHttpServer} = require("@apollo/server/plugin/drainHttpServer");
 const { makeExecutableSchema } = require("@graphql-tools/schema");
 const { WebSocketServer } = require("ws");
 const { useServer } = require("graphql-ws/lib/use/ws");

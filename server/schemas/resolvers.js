@@ -8,19 +8,25 @@ const pubsub = new PubSub()
 
 
 
+
 const resolvers = {
     Query: {
         user: async (parent, args, context) => {
-
-          
-            if (!context.user) {
-              const userData = await User.findById("64daeff1edf1487793b355a2")
+          try {
+            if (context.user) {
+              const userData = await User.findById(context.user._id)
               return userData;
             } else {
               throw new AuthenticationError('Not logged in');
             }
+          } catch (err) {
+            console.error(err);
+            throw new Error('An error occurred while fetching user data');
+          }
         },
       },
+
+
     Subscription:{
         messages:{
        subscribe:()=>pubsub.asyncIterator('MESSAGE_RECEIVED')
@@ -113,8 +119,7 @@ const resolvers = {
 
         updateUserProfile: async (parent, { input }, context) => {
             if (context.user) {
-                // console.log(description)
-                // console.log(ID)
+        
                 const newUserProfile = await User.findByIdAndUpdate(
                     { _id: context.user._id },
                     { $set: { username: input.username, email: input.email, description: input.description }, },

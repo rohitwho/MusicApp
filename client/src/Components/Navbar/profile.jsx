@@ -31,7 +31,7 @@ export default function Profile({setSaved}) {
             // Handle error if the update fails
             console.error("Error updating profile:", error);
         }
-    };
+    }
     
     return (
         <>

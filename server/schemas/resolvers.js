@@ -1,7 +1,11 @@
 const { AuthenticationError } = require("apollo-server-express");
 const { User } = require("../models");
 const { signToken } = require("../utls/auth");
-const { PubSub } = require('apollo-server');
+// const { PubSub } = require('apollo-server');
+const { PubSub } = require('graphql-subscriptions')
+const {Subscription} = require('graphql-subscriptions')
+
+const NEW_USER = "NEW_USER";
 
 const resolvers = {
   Query: {
@@ -26,6 +30,13 @@ const resolvers = {
         //   throw new Error('An error occurred while fetching user data');
       }
     },
+    signup: async (parent, args) => {
+        const user = await User.create(args)
+        const token = signToken(user)
+        pubsub.publish(NEW_USER, { newUser: user.username })
+        //it publishing the event to subscription channel
+        return { token, user }
+
   },
   Mutation: {
     signup: async (parent, args) => {

@@ -1,3 +1,5 @@
-import User from "./user"
+// import User from "./user"
+
+const User = require("./user")
 
 

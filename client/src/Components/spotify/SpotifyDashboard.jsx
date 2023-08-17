@@ -89,6 +89,7 @@ export default function SpotifyDashboard({ tracks, chooseTrack }) {
         padding:"1rem",
         backgroundColor: '#593028',
         border: '1px solid white',
+        borderRadius:"14px",
         width:"100%"
       }}
     >

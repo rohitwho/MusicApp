@@ -15,7 +15,11 @@ export default function spotifyInit(){
 return (
 
 
-    <>
+    <div style={{
+        display:"flex",
+        justifyContent:"center",
+      
+    }}>
 
 
 
@@ -26,7 +30,7 @@ return (
 
 
 
-<Button>
+<Button >
     <a href={Auth}>Connect with Music IO?</a>
 </Button>
 
@@ -36,7 +40,7 @@ return (
     
     
     
-    </>
+    </div>
 )
 
 

@@ -36,7 +36,7 @@ export default function App() {
   const [saved, setSaved]=  useState(false)
 
   const userOfficialName = data?.user || {}
-  console.log(userOfficialName)
+  
 
   useEffect(()=>{
     setTimeout(()=>{
@@ -92,7 +92,7 @@ export default function App() {
                 }}
               />
             <Profile setSaved={setSaved} />
-            {saved === true ? <p style={{color: 'green'}}>Your Profile Has Been Updated!</p> : ''}
+            {saved === true ? <p style={{color: 'black'}}>Profile Updated!</p> : ''}
             </NavbarContent>
           </>
         ) : (

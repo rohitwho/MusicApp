@@ -47,8 +47,8 @@ mutation Mutation($input: Text) {
 
 export const POST_COMMENT = gql`
 
-mutation Mutation($userid: ID, $commentText: String, $commentAuthor: String) {
-  addUserComment(userid: $userid, commentText: $commentText, commentAuthor: $commentAuthor) {
+mutation Mutation($commentText: String, $commentAuthor: String) {
+  addUserComment( commentText: $commentText, commentAuthor: $commentAuthor) {
     comments {
       commentAuthor
       commentText

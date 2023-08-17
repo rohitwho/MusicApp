@@ -6,36 +6,75 @@ import {  gql } from '@apollo/client';
 
 
 export const GET_MESSAGES = gql`
-
-subscription {
-    
-      messages {
-        messageContent
-        createdAt
-      }
- 
-     
-    
+query User {
+  user {
+    _id
+    username
+    messages {
+      messageContent
+      createdAt
+      _id
+    }
   }
+}
 
+
+
+
+` 
+export const GET_COMMENTS = gql`
+
+query User {
+  user {
+    comments {
+      commentText
+      commentAuthor
+    }
+  }
+}
 
 
 
 `
 export  const GET_USER = gql`
-
-query Query {
+query User {
   user {
-    _id
-    description
-    email
     username
+    email
+    description
+    _id
+    friends {
+      _id
+    }
+   
   }
 }
 
 
 `
+export const FRIENDS = gql`
 
+query User {
+  user {
+    username
+    email
+    description
+    _id
+  
+    friends {
+      _id
+      username
+      messages {
+        messageContent
+        createdAt
+      }
+    }
+  }
+}
+
+
+
+`
 
 
 

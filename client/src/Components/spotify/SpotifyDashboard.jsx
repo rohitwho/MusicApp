@@ -37,9 +37,9 @@ export default function SpotifyDashboard({ tracks, chooseTrack }) {
  const firstInitial = userInitials[0];
  const lastInitial = userInitials[userInitials.length -1]
  const joinInitials = firstInitial+"" +lastInitial
- console.log(joinInitials)
+
   const allComments = data?.user.comments || {};
-  console.log(allComments);
+
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const [comentsData, setCommentsData] = useState({

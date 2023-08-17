@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useQuery, useMutation } from "@apollo/client";
+import { useSubscription,useQuery, useMutation } from "@apollo/client";
 import { GET_USER,GET_MESSAGES} from "../utils/queries";
 import { SEND_MESSAGE } from "../utils/mutation";
 import { Input } from "@nextui-org/react";
@@ -14,14 +14,14 @@ import SpotifyInit from "../utils/Api/spotifyLogin"
 
 export default function Chatbox() {
   const [inputValue, setInputValue] = useState("");
-  const { loading: userLoading, error: userError, data: userPersonalData } = useQuery(GET_USER);
-  // const { loading: messagesLoading, error: messagesError, data: messagesData } = useQuery(GET_MESSAGES);
+  // const { loading: userLoading, error: userError, data: userPersonalData } = useQuery(GET_USER);
+  const { loading: messagesLoading, error: messagesError, data: messagesData } = useSubscription(GET_MESSAGES);
   // console.log(messagesData?.data|| {})
   const [sentMessage] = useMutation(SEND_MESSAGE);
 
-  const userData = userPersonalData?.user || {}
-  const friendUsernames = userData.friends?.map(friend => friend._id);
-  console.log(friendUsernames)
+  const userData = messagesData || {}
+  // const friendUsernames = userData.friends?.map(friend => friend._id);
+  // console.log(friendUsernames)
   console.log(userData)
 
 
@@ -41,6 +41,7 @@ export default function Chatbox() {
       });
 
       console.log(response);
+      setInputValue("")
  
     } catch (err) {
       console.error(err);
@@ -50,9 +51,9 @@ export default function Chatbox() {
   const handlechange = (e) => {
     setInputValue(e.target.value);
   };
-if(userLoading){
-  <h1>Loading....</h1>
-}
+// if(userLoading){
+//   <h1>Loading....</h1>
+// }
   return (
  <main style = {{
   display:"flex",
@@ -65,7 +66,9 @@ if(userLoading){
         justifyContent:"center",
        width:"100%",
         margin:"2%",
+        height:"80vh",
         border:"2px solid white",
+        borderRadius:"14px"
    
      
       }}>
@@ -110,16 +113,17 @@ if(userLoading){
     }}><Avatar  isBordered radius="lg" name="RN" /> <Link >Rohit Nayyar
     </Link></li>
     </ul></div>
-    { friendUsernames}
+    {/* { friendUsernames} */}
         <div
           className="Primary-Chat"
           style={{
             display:"flex",
+            maxHeight:"80vh",
             flexDirection:"column",
-            justifyContent:" flex-end",
+            // justifyContent:" flex-end",
             alignItems:"stretch",
             width:"70%",
-            overflowY:"auto"
+            overflowY:"scroll"
        
           }}>
    
@@ -130,6 +134,7 @@ if(userLoading){
                 style={{
                   position:"sticky",
                   display: "flex",
+                  // overflowY:"scroll",
                   justifyContent:
                     userData.username === messageUser ? "flex-start" : "flex-end",
                   paddingBottom: "1em",
@@ -137,6 +142,7 @@ if(userLoading){
               >
                 <div
                   style={{
+                    // overflowY:"scroll",
                     background:
                       userData.username === messageUser ? "green" : "#027aff",
                     color: userData.username === messageUser ? "black" : "white",
@@ -159,18 +165,21 @@ if(userLoading){
             )
           )}
 
+    
             <div
               style={{
                 display:"inline-flex",
+            
                 marginInline: "1rem",
                 width: "100%",
                 alignItems: "center",
-                color:"whitesmoke"
+                color:"whitesmoke",
+                padding:"2%"
               }}
             >
               <Input
                 isClearable
-                type="email"
+                type="text"
                 label="Message"
                 variant="bordered"
                 value={inputValue}
@@ -191,7 +200,6 @@ if(userLoading){
               Send
             </Button>
             </div>
-    
         </div>
       </section>
  </main>

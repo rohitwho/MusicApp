@@ -45,7 +45,17 @@ const typeDefs = gql`
     user: User !
     
   }
+  type Subscription{
+    messages: [UserMessages]
+  }
   
+
+  input updateProfile {
+    username: String!
+    email: String!
+    description: String!
+  }
+
   type Mutation {
     signup(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
@@ -54,7 +64,7 @@ const typeDefs = gql`
     addMessage(input: Text): User
     removeUserComment(commentId: ID): User
     addFriend(_id:ID,friendsId : ID): User
-    addDescription( userdescription: String): User
+    updateUserProfile(input: updateProfile!): User
   }
 `;
 

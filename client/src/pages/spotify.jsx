@@ -181,7 +181,9 @@ return (
               padding: '1rem',
             }}>
           {allComments?.map((comment, index) => (
-  <div className="inline-flex mx-1" key={index}>
+  <div className="inline-flex mx-1" style ={{
+    color:"white"
+  }} key={index}>
     <PopOver />
     <Input
       isReadOnly
@@ -207,6 +209,7 @@ return (
             minWidth: "100%",
                 gap: "10px",
                 padding: '1rem',
+                color:"white"
               }}>
                 <Avatar />
                 <Input

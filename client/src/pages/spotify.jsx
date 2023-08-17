@@ -123,13 +123,14 @@ return (()=>cancel = true)
 
 return (
     <div style={{
-      margin: "2%",
+      margin: "1%",
       height: "80vh",
       minWidth: "30%",
       overflowY: "scroll",
       alignContent: "center",
       border: "2px solid white",
-      paddingInline: "2%"
+      borderRadius:"14px",
+      padding: "2%"
     }}>
       {accessToken && Auth.loggedIn() ? (
         <Input

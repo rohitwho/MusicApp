@@ -128,7 +128,7 @@ const resolvers = {
         },
 
         updateUserProfile: async (parent, { input }, context) => {
-            if (!context.user) {
+            if (context.user) {
         
                 const newUserProfile = await User.findByIdAndUpdate(
                     { _id: context.user._id },

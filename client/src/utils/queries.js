@@ -1,21 +1,77 @@
 import { gql } from "@apollo/client";
 
 export const GET_MESSAGES = gql`
-  query Query {
-    newMessages {
-      messageId
+query User {
+  user {
+    _id
+    username
+    messages {
       messageContent
       createdAt
-    }
-  }
-`;
-export const GET_USER = gql`
-  query Query {
-    user {
       _id
-      description
-      email
-      username
     }
   }
-`;
+}
+
+
+
+
+` 
+export const GET_COMMENTS = gql`
+
+query User {
+  user {
+    comments {
+      commentText
+      commentAuthor
+    }
+  }
+}
+
+
+
+`
+export  const GET_USER = gql`
+query User {
+  user {
+    username
+    email
+    description
+    _id
+    friends {
+      _id
+    }
+   
+  }
+}
+
+
+`
+export const FRIENDS = gql`
+
+query User {
+  user {
+    username
+    email
+    description
+    _id
+  
+    friends {
+      _id
+      username
+      messages {
+        messageContent
+        createdAt
+      }
+    }
+  }
+}
+
+
+
+`
+
+
+
+
+

@@ -22,7 +22,7 @@ export const UserTwitterCard = () => {
           variant={isFollowed ? "bordered" : "solid"}
           onPress={() => setIsFollowed(!isFollowed)}
         >
-          {isFollowed ? "Unfollow" : "Follow"}
+          {isFollowed ? "AddFriend" : "Friends"}
         </Button>
       </CardHeader>
       <CardBody className="px-3 py-0">

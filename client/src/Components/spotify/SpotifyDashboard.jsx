@@ -70,7 +70,7 @@ export default function SpotifyDashboard({ tracks, chooseTrack }) {
 
 
   function playHandler(){
-
+  
 
     chooseTrack(tracks)
  
@@ -113,76 +113,8 @@ export default function SpotifyDashboard({ tracks, chooseTrack }) {
          
           <PlayButton/>
 
-      </div>
-
-      <Modal
-        backdrop="opaque"
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-        size="5xl"
-        classNames={{
-          backdrop:
-            'bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20',
-        }}
-      
-
-      >
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                {tracks.title}
-              </ModalHeader>
-              <ModalBody>
-          
-                {allComments?.map((comment, index) => (
-                  <div className=" inline-flex mx-3"  key={index}>
-                 <Avatar name={joinInitials}/>   <Input
-      isReadOnly
-      type="text"
-      label="Comments"
-      variant="bordered"
-      value= {comment.commentText}
-      className="max-w-xs"
-    /> 
-                  </div>
-                ))}
-              </ModalBody>
-              <div
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  padding: '1rem',
-                }}
-              >
-       <Avatar name={joinInitials}/> 
-                <Input
-                  type="text"
-                  name="commentText"
-                  label="Comment"
-                  placeholder="Say Something!"
-                  value={comentsData.commentText}
-                  onChange={commentToSet}
-                />
-                <Button
-                  onClick={HandleComment} 
-                  style={{ marginInline: '1%' }}
-                  color="primary"
-                  variant="ghost"
-                >
-                  Send
-                </Button>
-              </div>
-              <ModalFooter>
-                <Button color="primary" onClick={onClose}>
-                  Action
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
-    </div>
+     </div>
+     </div>
   </main>
 );
 }

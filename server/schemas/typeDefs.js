@@ -41,10 +41,9 @@ const typeDefs = gql`
 
   type Query {
     user: User !
-    newMessages: [UserMessages]
+    
   }
- 
-  
+
 
   input updateProfile {
     username: String!
@@ -56,10 +55,10 @@ const typeDefs = gql`
     signup(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
     removeUser(username: String!): User
-    addUserComment(userid: ID, commentText: String, commentAuthor: String): User
+    addUserComment( commentText: String, commentAuthor: String): User
     addMessage(input: Text): User
     removeUserComment(commentId: ID): User
-    addFriend(_id:ID,friendsId : ID): User
+    addFriend(friendsId : ID): User
     updateUserProfile(input: updateProfile!): User
   }
 `;
@@ -73,4 +72,8 @@ module.exports = typeDefs;
 // }
 // input descriptionInput{
 //   description: String
+// }
+// type Subscription{
+//   messages: [UserMessages]
+//   comments: [userComments]
 // }

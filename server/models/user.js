@@ -39,7 +39,10 @@ const userSchema = new Schema({
     },
   ],
   messages: [messageSchema],
-});
+},{
+  virtuals:true
+}
+);
 userSchema.virtual("friendCount").get(function () {
   return this.friends.length;
 });

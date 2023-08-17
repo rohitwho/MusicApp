@@ -1,15 +1,45 @@
 const { AuthenticationError } = require('apollo-server-express');
 const { User } = require('../models');
 const { signToken } = require('../utls/auth');
-const { PubSub } = require('graphql-subscriptions');
+// const { PubSub } = require('graphql-subscriptions');
 // const pubsub = new PubSub()
 
 
 
 
+
+
 const resolvers = {
-    Query: {
+    Query:{
+
         user: async (parent, args, context) => {
+            try {
+              if (context.user) {
+                  console.log(context.user)
+                const userData = await User.findById(context.user._id)
+                return userData;
+              } else {
+                throw new AuthenticationError('Not logged in');
+              }
+            } catch (err) {
+                console.log(err);
+                throw new Error('An error occurred while fetching user data');
+              }
+            }
+    },
+      
+    
+
+
+    // Subscription:{
+    //     messages:{
+    //    subscribe:()=>pubsub.asyncIterator('MESSAGE_RECEIVED')
+    //         },
+    //         comments:{
+    //             subscribe:()=>pubsub.asyncIterator("COMMENT_RECIEVED")
+    //         }
+        
+    // },
           try {
             if (context.user) {
               const userData = await User.findById(context.user._id)
@@ -67,41 +97,55 @@ const resolvers = {
         return await User.findOneAndDelete(args);
       },
 
-      addMessage: async (parent, { input }, context) => {
-        try {
-          const addMessage = await User.findByIdAndUpdate(
-            { _id: "64daeff1edf1487793b355a2" },
-            { $push: { messages: input } },
 
-            { new: true }
-          );
-          return addMessage;
-        } catch (err) {
-          console.error(err);
-        }
-      },
-      addFriend: async (parent, { _id, friendsId }) => {
-        try {
-          const addFriends = await User.findByIdAndUpdate(_id, {
-            $push: { friends: friendsId },
-          });
-          return addFriends;
-        } catch (err) {
-          console.log(err);
-        }
-      },
+        addMessage: async (parent, { input},context) => {
+            try {
+                const addMessage = await User.findByIdAndUpdate(
+                  {_id: context.user._id },
+                    { $push: { messages: input } },
+                
+                    { new: true }
+                );
+                // pubsub.publish('MESSAGE_RECEIVED', { messages: addMessage.messages });
+            
+                return addMessage;
+            } catch (err) {
+                console.error(err);
+            }
+        },
+        addFriend: async (parent, { friendsId }, context) => {
+            try {
+              const user = await User.findByIdAndUpdate(
+              context.user._id,
+                { $push: { friends: friendsId } },
+                { new: true }
+              ).populate('friends');
+          
+              const addedFriend = await User.findById(friendsId); 
+          
+              return { user, addedFriend };
+            } catch (err) {
+              console.error(err);
+              throw err;
+            }
+          },
+ 
+          
+          
+          
+          
+          
 
-      addUserComment: async (
-        parent,
-        { userid, commentText, commentAuthor },
-        context
-      ) => {
-        try {
-          const comments = await User.findOneAndUpdate(
-            { _id: userid },
-            { $push: { comments: { commentText, commentAuthor } } },
-            { new: true }
-          );
+
+
+        addUserComment: async (parent, {  commentText, commentAuthor }, context) => {
+            try {
+                const comments = await User.findOneAndUpdate(
+                    { _id:  context.user._id },
+                    { $push: { comments: { commentText, commentAuthor } } },
+                    { new: true }
+                )
+                // pubsub.publish("COMMENT_RECIEVED", { comments: comments.comments });
 
           return comments;
         } catch (err) {
@@ -110,7 +154,7 @@ const resolvers = {
       },
 
         updateUserProfile: async (parent, { input }, context) => {
-            if (context.user) {
+            if (!context.user) {
         
                 const newUserProfile = await User.findByIdAndUpdate(
                     { _id: context.user._id },

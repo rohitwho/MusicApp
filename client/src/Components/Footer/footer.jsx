@@ -11,13 +11,19 @@ export default function Footer (){
 
 
 
-    return <div style={{
+    return <h1 style={{
         border:"1px solid white",
-        height:"10vh"
+        height:"8vh",
+        background:"#dad7d8",
+        display:"flex",
+        justifyContent:"center",
+alignItems:"center",
+    // margin:"2%",
+    fontSize:"1.5em"
     }
 
 
 
-}className=" text-white justify-end align-bottom">I am a Footer</div>
+}className=" text-black " >MusicIO</h1>
 
 }

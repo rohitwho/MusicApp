@@ -14,17 +14,18 @@ import SpotifyInit from "../utils/Api/spotifyLogin"
 
 export default function Chatbox() {
   const [inputValue, setInputValue] = useState("");
-  const {loading, error, data} = useQuery(GET_MESSAGES, {
-    pollInterval: 500,
-    });
-  // const { loading: messagesLoading, error: messagesError, data: messagesData } = useSubscription(GET_MESSAGES);
+
+  const { loading: userLoading, error: userError, data: userPersonalData } = useQuery(GET_USER);
+  const { loading: messagesLoading, error: messagesError, data: messagesData } = useQuery(GET_MESSAGES);
+
   // console.log(messagesData?.data|| {})
   const [sentMessage] = useMutation(SEND_MESSAGE);
 
-  const userData = messagesData || {}
-  // const friendUsernames = userData.friends?.map(friend => friend._id);
-  // console.log(friendUsernames)
+  const userData = messagesData ?.user|| {}
   console.log(userData)
+  const friendUsernames = userPersonalData?.user || {}
+  console.log(friendUsernames)
+
 
 
 
@@ -42,7 +43,7 @@ export default function Chatbox() {
         variables: { input: { ...saveMessage } },
       });
 
-      console.log(response);
+  
       setInputValue("")
  
     } catch (err) {
@@ -112,10 +113,10 @@ export default function Chatbox() {
       width:"100%",
       color:"white",
       margin :"1rem"
-    }}><Avatar  isBordered radius="lg" name="RN" /> <Link >Rohit Nayyar
+    }}><Avatar  isBordered radius="lg" name="RN" /> <Link > 
     </Link></li>
     </ul></div>
-    {/* { friendUsernames} */}
+
         <div
           className="Primary-Chat"
           style={{
@@ -161,14 +162,13 @@ export default function Chatbox() {
                   }}
                   isBordered
                   color="secondary"
-                  src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+                  src="https://i.pravatar.cc/150?u=a04258114e29026702e"
                 />
               </div>
             )
           )}
 
-    
-            <div
+<div
               style={{
                 display:"inline-flex",
             
@@ -202,7 +202,9 @@ export default function Chatbox() {
               Send
             </Button>
             </div>
+      
         </div>
+   
       </section>
  </main>
   );

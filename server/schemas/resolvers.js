@@ -1,42 +1,35 @@
-const { AuthenticationError } = require("apollo-server-express");
-const { User } = require("../models");
-const { signToken } = require("../utls/auth");
-// const { PubSub } = require('apollo-server');
-const { PubSub } = require("graphql-subscriptions");
-const { Subscription } = require("graphql-subscriptions");
+const { AuthenticationError } = require('apollo-server-express');
+const { User } = require('../models');
+const { signToken } = require('../utls/auth');
+const { PubSub } = require('graphql-subscriptions');
+const pubsub = new PubSub()
+
 
 const NEW_USER = "NEW_USER";
 
 const resolvers = {
-  Query: {
-    Subscription: {
-      messageAdded: {
-        subscribe: (addMessage, { pubsub }) =>
-          pubsub.asyncIterator([MESSAGE_ADDED]),
+    Query: {
+        user: async (parent, args, context) => {
+          try {
+            if (context.user) {
+              const userData = await User.findById(context.user._id)
+              return userData;
+            } else {
+              throw new AuthenticationError('Not logged in');
+            }
+          } catch (err) {
+            console.error(err);
+            throw new Error('An error occurred while fetching user data');
+          }
+        },
       },
-    },
-    user: async (parent, context) => {
-      try {
-        if (!context.user) {
-          const userData = await User.findById(
-            "64d825967756ac8930c53489"
-          ).select("-__v -password");
-          console.log(userData);
-          return userData;
-        } else {
-          throw new AuthenticationError("Not logged innnn");
-        }
-      } catch (err) {
-        console.log(err);
-        //   throw new Error('An error occurred while fetching user data');
-      }
-    },
-    signup: async (parent, args) => {
-      const user = await User.create(args);
-      const token = signToken(user);
-      pubsub.publish(NEW_USER, { newUser: user.username });
-      //it publishing the event to subscription channel
-      return { token, user };
+
+
+    Subscription:{
+        messages:{
+       subscribe:()=>pubsub.asyncIterator('MESSAGE_RECEIVED')
+            }
+        
     },
     Mutation: {
       signup: async (parent, args) => {
@@ -110,21 +103,14 @@ const resolvers = {
         }
       },
 
-      updateUserProfile: async (parent, { input }, context) => {
-        if (context.user) {
-          // console.log(description)
-          // console.log(ID)
-          const newUserProfile = await User.findByIdAndUpdate(
-            { _id: context.user._id },
-            {
-              $set: {
-                username: input.username,
-                email: input.email,
-                description: input.description,
-              },
-            },
-            { new: true }
-          );
+        updateUserProfile: async (parent, { input }, context) => {
+            if (context.user) {
+        
+                const newUserProfile = await User.findByIdAndUpdate(
+                    { _id: context.user._id },
+                    { $set: { username: input.username, email: input.email, description: input.description }, },
+                    { new: true }
+                )
 
           return newUserProfile;
         } else {

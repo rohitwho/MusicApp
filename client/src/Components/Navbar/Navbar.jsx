@@ -13,7 +13,7 @@ import {
   NavbarMenu,
   NavbarItem,
   Link,
-
+  Button,
   User,
 } from "@nextui-org/react";
 
@@ -45,7 +45,7 @@ export default function App() {
   }, [saved])
 
   
-  const menuItems = ["Profile", "Dashboard","LogOut"];
+  const menuItems = ["Profile", "Dashboard",];
 
   return (
     <div>
@@ -109,29 +109,28 @@ export default function App() {
         )}
 
         <NavbarMenu>
-          {/* <NavbarMenuItem>
-           
-          </NavbarMenuItem> */}
+       
           {menuItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
               
-              <Link
+              <Link 
                 className="w-full"
                 color={
                   index === 2
                     ? "primary"
                     : index === menuItems.length - 1
-                    ? "danger"
+                    ? "green"
                     : "foreground"
                 }
-                href="#"
+                href="/"
                 size="lg"
               >
                 {item}
               </Link>
-              
+       
             </NavbarMenuItem>
           ))}
+             <Button className="  w-10" color="warning" variant="ghost" onClick={Auth.logout} >LogOut?</Button>
         </NavbarMenu>
       </Navbar>
 

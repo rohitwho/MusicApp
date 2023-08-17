@@ -24,36 +24,12 @@ subscription {
 `
 export  const GET_USER = gql`
 
-
-
-
-query User {
+query Query {
   user {
-    username
-    email
-    description
     _id
-    messages {
-      messageContent
-      createdAt
-      _id
-    }
-    comments {
-      commentAuthor
-      commentText
-      userid
-    }
-    friends {
-      username
-      email
-      _id
-      comments {
-        commentText
-      }
-      messages {
-        messageContent
-      }
-    }
+    description
+    email
+    username
   }
 }
 

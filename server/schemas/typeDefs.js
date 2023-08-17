@@ -26,9 +26,7 @@ const typeDefs = gql`
   }
 
 
-  type Subscription {
-    messageAdded (input: Text): User
-  }
+
 
   type Auth {
     token: ID!
@@ -43,11 +41,9 @@ const typeDefs = gql`
 
   type Query {
     user: User !
-    
+    newMessages: [UserMessages]
   }
-  type Subscription{
-    messages: [UserMessages]
-  }
+ 
   
 
   input updateProfile {

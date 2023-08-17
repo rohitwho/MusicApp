@@ -2,10 +2,10 @@ const { AuthenticationError } = require('apollo-server-express');
 const { User } = require('../models');
 const { signToken } = require('../utls/auth');
 const { PubSub } = require('graphql-subscriptions');
-const pubsub = new PubSub()
+// const pubsub = new PubSub()
 
 
-const NEW_USER = "NEW_USER";
+
 
 const resolvers = {
     Query: {
@@ -22,15 +22,23 @@ const resolvers = {
             throw new Error('An error occurred while fetching user data');
           }
         },
+        newMessages: async (parent, args, context) => {
+          try {
+            if (context.user) {
+              const userData = await User.findById(context.user._id)
+              return userData;
+            } else {
+              throw new AuthenticationError('Not logged in');
+            }
+          } catch (err) {
+            console.error(err);
+            throw new Error('An error occurred while fetching user data');
+          }
+        }
       },
 
 
-    Subscription:{
-        messages:{
-       subscribe:()=>pubsub.asyncIterator('MESSAGE_RECEIVED')
-            }
-        
-    },
+
     Mutation: {
       signup: async (parent, args) => {
         const user = await User.create(args);
@@ -67,8 +75,6 @@ const resolvers = {
 
             { new: true }
           );
-          pubsub.publish("MESSAGE_RECEIVED", { messages: addMessage.messages });
-
           return addMessage;
         } catch (err) {
           console.error(err);
@@ -118,7 +124,6 @@ const resolvers = {
         }
       },
     },
-  },
-};
+  };
 
 module.exports = resolvers;

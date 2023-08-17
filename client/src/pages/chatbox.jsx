@@ -14,8 +14,10 @@ import SpotifyInit from "../utils/Api/spotifyLogin"
 
 export default function Chatbox() {
   const [inputValue, setInputValue] = useState("");
-  // const { loading: userLoading, error: userError, data: userPersonalData } = useQuery(GET_USER);
-  const { loading: messagesLoading, error: messagesError, data: messagesData } = useSubscription(GET_MESSAGES);
+  const {loading, error, data} = useQuery(GET_MESSAGES, {
+    pollInterval: 500,
+    });
+  // const { loading: messagesLoading, error: messagesError, data: messagesData } = useSubscription(GET_MESSAGES);
   // console.log(messagesData?.data|| {})
   const [sentMessage] = useMutation(SEND_MESSAGE);
 

@@ -21,6 +21,7 @@ if (!accessToken)return null
     <SpotifyPlayer
     token={accessToken}
     showSaveIcon
+    
     uris={ trackUri?[trackUri]:[]}
     />
   

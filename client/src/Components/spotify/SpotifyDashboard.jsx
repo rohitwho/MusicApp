@@ -34,7 +34,7 @@ export default function SpotifyDashboard({ tracks, chooseTrack }) {
             avatarProps={{ radius: "lg", size: "lg", src: tracks.albumUrl }}
             description={tracks.artist}
             name={tracks.title}
-            onClick={onOpen}
+           
           ></User>
 
           <PlayButton />

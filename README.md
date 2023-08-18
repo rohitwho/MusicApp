@@ -1,4 +1,5 @@
-# MuCha  App
+# Music  App  
+
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
 
@@ -18,7 +19,7 @@
 - As a user we want to be able to create an account, listen to music,  add friends, and chat with the rest of
 
 
-The application is deployed to [Heroku](https://mucha-app.herokuapp.com/).
+The application is deployed to [Heroku](https://musicapp-g7-8464089b4e0f.herokuapp.com/).
 
 
 ## Installation
@@ -29,11 +30,17 @@ For repo clone: <br>
 
 
 ## Screenshots:
+- Starting page
+![](./assets/screenshot/starting_page.png)
 
-![
-
-![
+- Spotify player with comments below
+![](./assets/screenshot/Spotify_player.png)
   
+- Profile update page
+![](./assets/screenshot/profile_update.png)
+
+- Navigation bar
+![](./assets/screenshot/navbar.png)
 
 ## Contributors
 

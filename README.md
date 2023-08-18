@@ -37,10 +37,10 @@ For repo clone: <br>
 ![](./assets/screenshot/Spotify_player.png)
   
 - Profile update page
-![](./assets/screenshot/profile_update.png)
+![](./assets/screenshot/Profile_update.png)
 
 - Navigation bar
-![](./assets/screenshot/navbar.png)
+![](./assets/screenshot/Navbar.png)
 
 ## Contributors
 

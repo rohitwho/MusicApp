@@ -11,7 +11,7 @@ import {
   useDisclosure,
 
   Input,
-  Link,
+
 } from "@nextui-org/react";
 // import { GET_USER } from "../../../utils/queries";
 import { useQuery, useMutation } from "@apollo/client";
@@ -38,8 +38,7 @@ export default function SignUpForm (){
     password: "",
   });
 
-  // const userName = data?.user || {};
-  // console.log(userName);
+
 
   const inputhandler = (event) => {
     const { name, value } = event.target;
@@ -53,7 +52,7 @@ export default function SignUpForm (){
       });
 
       if (data.signUp.token) {
-        console.log(data.data.signUp.token);
+
         Auth.login(data.data.signUp.token);
       } else {
         throw new Error("something went wrong!");

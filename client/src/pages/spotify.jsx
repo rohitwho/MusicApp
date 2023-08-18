@@ -164,8 +164,7 @@ return (
         display: "flex",
         // position: "sticky",
         flexDirection: "column",
-        // alignItems: "stretch",
-        // justifyItems: "end"
+      
       }}>
         {playingTrack ? (
           <main style={{

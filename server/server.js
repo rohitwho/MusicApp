@@ -2,6 +2,7 @@ const express = require("express");
 const { ApolloServer } = require('apollo-server-express');
 const path = require("path");
 const {authMiddleware}  = require("./utls/auth.js");
+const routes = require("./routes/index.js")
 
 const dotenv = require ("dotenv").config();
 const { typeDefs, resolvers } = require("./schemas");
@@ -16,7 +17,6 @@ var cors = require("cors");
 
 
 
-const SpotifyWebApi = require("spotify-web-api-node");
 
 
 
@@ -26,6 +26,7 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+app.use(routes)
 app.use(express.urlencoded({ extended: false }));
 
 
@@ -33,58 +34,6 @@ app.use(express.urlencoded({ extended: false }));
 
 
 
-app.post("/refresh", (req, res) => {
-  const refreshToken = req.body.refreshToken;
-  const client_id = "bdd9da03ae0b4e068945d124833236e3";
-  const client_secret = "c8134b1d8304455381ac20e549583a77";
-
-  const spotifyApi = new SpotifyWebApi({
-    clientId: client_id,
-    clientSecret: client_secret,
-    redirectUri: "http://localhost:5173",
-    refreshToken,
-  });
-  spotifyApi
-    .refreshAccessToken()
-    .then((data) => {
-      res.json({
-        accessToken: data.body.access_token,
-        expiresIn: data.body.expires_in,
-      });
-
-      spotifyApi.setAccessToken(data.body["access_token"]);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status();
-    });
-});
-
-app.post("/login", (req, res) => {
-  const code = req.body.code;
-  const client_id = "bdd9da03ae0b4e068945d124833236e3";
-  const client_secret = "c8134b1d8304455381ac20e549583a77";
-
-  const spotifyApi = new SpotifyWebApi({
-    clientId: client_id,
-    clientSecret: client_secret,
-    redirectUri: "https://musicio-d325003c7109.herokuapp.com/",
-  });
-  console.log(code);
-  spotifyApi
-    .authorizationCodeGrant(code)
-    .then((data) => {
-      res.json({
-        accessToken: data.body.access_token,
-        refreshToken: data.body.refresh_token,
-        expiresIn: data.body.expires_in,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status();
-    });
-});
 const server = new ApolloServer({
   typeDefs,
   resolvers,

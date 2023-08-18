@@ -15,13 +15,13 @@ export default function Chatbox() {
   const [inputValue, setInputValue] = useState("");
   const { loading: userLoading, error: userError, data: userPersonalData } = useQuery(GET_USER);
   const { loading: messagesLoading, error: messagesError, data: messagesData } = useQuery(GET_MESSAGES);
-  // console.log(messagesData?.data|| {})
+
   const [sentMessage] = useMutation(SEND_MESSAGE);
 
   const userData = messagesData ?.user|| {}
-  console.log(userData)
-  const friendUsernames = userPersonalData?.user || {}
-  console.log(friendUsernames)
+
+  // const friendUsernames = userPersonalData?.user || {}
+
 
 
 
@@ -74,10 +74,7 @@ export default function Chatbox() {
       }}>
         <div>
         </div>
-          {/* <div style={{
-            borderRight:"inset",
-            width:"30%"
-          }}><SpotifyPlaylist/></div> */}
+    
       <div style={
         {
           borderRight:"2px solid white",

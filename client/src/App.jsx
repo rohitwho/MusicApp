@@ -16,7 +16,7 @@ import Auth from "./utils/auth";
 
 
 const httpLink = createHttpLink({
-  uri: "http://localhost:3001/graphql",
+  uri: "https://musicapp-g7-8464089b4e0f.herokuapp.com/graphql",
 });
 
 // Construct request middleware that will attach the JWT token to every request as an `authorization` header

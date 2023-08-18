@@ -120,8 +120,8 @@ export default function Chatbox() {
             display:"flex",
             maxHeight:"80vh",
             flexDirection:"column",
-
-            alignItems:"stretch",
+padding:"2%",
+            alignItems:"flex-end",
             width:"70%",
             overflowY:"scroll"
        

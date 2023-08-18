@@ -208,7 +208,7 @@ return (
             minWidth: "100%",
                 gap: "10px",
                 padding: '1rem',
-                color:"white"
+                color:"black"
               }}>
                 <Avatar />
                 <Input

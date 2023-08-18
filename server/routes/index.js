@@ -1,4 +1,4 @@
-const routes = require("express").Router()
+const router = require("express").Router()
 
 const SpotifyWebApi = require("spotify-web-api-node");
 
@@ -10,7 +10,7 @@ const SpotifyWebApi = require("spotify-web-api-node");
 
 
 
-routes.post("/refresh", (req, res) => {
+router.post("/refresh", (req, res) => {
     const refreshToken = req.body.refreshToken;
     const client_id = "bdd9da03ae0b4e068945d124833236e3";
     const client_secret = "c8134b1d8304455381ac20e549583a77";
@@ -37,7 +37,7 @@ routes.post("/refresh", (req, res) => {
       });
   });
   
-  routes.post("/login", (req, res) => {
+  router.post("/login", (req, res) => {
     const code = req.body.code;
     const client_id = "bdd9da03ae0b4e068945d124833236e3";
     const client_secret = "c8134b1d8304455381ac20e549583a77";
@@ -62,4 +62,4 @@ routes.post("/refresh", (req, res) => {
         res.status();
       });
   });
-  module.export = routes
+  module.exports = router

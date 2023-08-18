@@ -14,7 +14,7 @@ export default function useAuth(code){
 
 useEffect(()=>{
 
-axios.post("http://localhost:3001/login",{
+axios.post("https://musicio-d325003c7109.herokuapp.com/login",{
     code
 })
 .then(res => {
@@ -39,7 +39,7 @@ useEffect(()=>{
 
 
          
-        axios.post("http://localhost:3001/refresh",{
+        axios.post("https://musicio-d325003c7109.herokuapp.com/refresh",{
             refreshToken
         })
         .then(res => {

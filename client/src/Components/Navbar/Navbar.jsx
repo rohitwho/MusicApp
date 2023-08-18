@@ -92,7 +92,7 @@ export default function App() {
                 }}
               />
             <Profile setSaved={setSaved} />
-            {saved === true ? <p style={{color: 'black'}}>Profile Updated!</p> : ''}
+            {saved === true ? <p style={{color: 'black'}}>Profile Updated yo</p> : ''}
             </NavbarContent>
           </>
         ) : (

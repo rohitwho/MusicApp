@@ -68,7 +68,7 @@ app.post("/login", (req, res) => {
   const spotifyApi = new SpotifyWebApi({
     clientId: client_id,
     clientSecret: client_secret,
-    redirectUri: "http://localhost:5173",
+    redirectUri: "https://musicio-d325003c7109.herokuapp.com/",
   });
   console.log(code);
   spotifyApi

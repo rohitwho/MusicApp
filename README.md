@@ -19,7 +19,7 @@
 - As a user we want to be able to create an account, listen to music,  add friends, and chat with the rest of
 
 
-The application is deployed to [Heroku](https://musicapp-g7-8464089b4e0f.herokuapp.com/).
+The application is deployed to [Heroku](https://musicio-d325003c7109.herokuapp.com/).
 
 
 ## Installation

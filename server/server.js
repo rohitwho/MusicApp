@@ -1,3 +1,5 @@
+
+
 const express = require("express");
 const { ApolloServer } = require("apollo-server-express");
 const path = require("path");
@@ -11,13 +13,26 @@ var bodyParser = require("body-parser");
 
 var cors = require("cors");
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3002;
 
 const app = express();
 app.use(cors());
+const { createServer } = require ( "http");
+const { Server } = require  ("socket.io");
+
+const httpServer = createServer(app);
+
+
+
+
+
+
 app.use(bodyParser.json());
 app.use(routes);
 app.use(express.urlencoded({ extended: false }));
+
+// const httpServer = createServer(app);
+
 
 const server = new ApolloServer({
   typeDefs,
@@ -34,18 +49,49 @@ app.get("/", (req, res) => {
 
 // Create a new instance of an Apollo server with the GraphQL schema
 const startApolloServer = async () => {
-  await server.start();
-  server.applyMiddleware({ app });
+  try {
+    console.log("Apollo Server Running....")
+    await server.start();
+    server.applyMiddleware({ app });
 
-  db.once("open", () => {
-    app.listen(PORT, () => {
-      console.log(`API server running on port ${PORT}!`);
-      console.log(
-        `Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`
-      );
+    const io = new Server(httpServer, {
+      cors: {
+        origin: "http://localhost:5174"
+      }
     });
-  });
-};
+  
+    io.on('connection', socket => {
+      console.log("Socket connection", socket.id);
 
-// Call the async function to start the server
+
+      socket.on("send_message",(data)=>{
+socket.emit("message_Recieved", data)
+      })
+
+
+      socket.on("disconnect",()=>{
+        console.log("user disconnected" ,socket.id)
+      })
+
+
+    });
+  
+    httpServer.listen(PORT, () => {
+      console.log(`API server running on port ${PORT}!`);
+     
+    });
+  } catch (error) {
+    console.error("Error during server startup:", error);
+  }
+};
 startApolloServer();
+//   // db.once("open", () => {
+//   //   // sServer.listen(PORT, () => {
+//   //   //   console.log(`API server running on port ${PORT}!`);
+//   //   //   console.log(
+//   //   //     `Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`
+//   //   //   );
+//   //   // });
+//   // });
+
+// // Call the async function to start the server

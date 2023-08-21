@@ -4,16 +4,21 @@ import Chatbox from "./pages/chatbox";
 import Footer from "./Components/Footer/footer";
 import SpotifyPlayer from "./pages/spotify";
 import { setContext } from "@apollo/client/link/context";
+import { io } from "socket.io-client"; 
 
 import {
   ApolloClient,
   InMemoryCache,
   createHttpLink,
-
   ApolloProvider,
 } from "@apollo/client";
 import Auth from "./utils/auth";
 
+
+
+
+
+const socket = io.connect("ws://localhost:3002")
 
 const httpLink = createHttpLink({
   uri: "https://musicio-d325003c7109.herokuapp.com/graphql",
@@ -54,7 +59,7 @@ function App() {
           }}
         >
           <SpotifyPlayer code={code} />
-          <Chatbox />
+          <Chatbox  socket = {socket}/>
         </main>
 
         <Footer />

@@ -16,6 +16,8 @@ const messageSchema = new Schema(
         type:Date,
         default:Date.now
     }
+},{
+    virtuals:true
 }
 
 )

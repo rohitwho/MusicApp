@@ -91,7 +91,7 @@ const resolvers = {
             try {
               const user = await User.findByIdAndUpdate(
               context.user._id,
-                { $push: { friends: friendsId } },
+                { $set: { friends: friendsId } },
                 { new: true }
               ).populate('friends');
           
@@ -99,8 +99,8 @@ const resolvers = {
           
               return { user, addedFriend };
             } catch (err) {
-              console.error(err);
-              throw err;
+              console.log(err);
+         
             }
           },
  

@@ -6,6 +6,7 @@ const typeDefs = gql`
   type UserMessages {
     messageContent: String
     _id: ID!
+    userId: ID!
     createdAt: GraphQLDateTime
   }
 
@@ -30,6 +31,7 @@ const typeDefs = gql`
     user: User
   }
   input Text {
+
     messageContent: String
 
   }

@@ -34,6 +34,7 @@ mutation Mutation($input: Text) {
   addMessage(input: $input) {
     messages {
       messageContent
+
       createdAt
     }
     username
